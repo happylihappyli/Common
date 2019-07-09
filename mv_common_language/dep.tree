@@ -1,0 +1,53 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building mv_common_language 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+Downloading: https://repo.magicwindow.cn/nexus/content/groups/public/cn/magicwindow/mv_newjava_common/1.0-SNAPSHOT/maven-metadata.xml
+Progress (1): 775 B                   Downloaded: https://repo.magicwindow.cn/nexus/content/groups/public/cn/magicwindow/mv_newjava_common/1.0-SNAPSHOT/maven-metadata.xml (775 B at 512 B/s)
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ mv_common_language ---
+[INFO] cn.magicwindow:mv_common_language:jar:1.0-SNAPSHOT
+[INFO] +- cn.magicwindow:mv_common2:jar:1.0-SNAPSHOT:compile
+[INFO] |  \- cn.magicwindow:mv_newjava_common:jar:1.0-SNAPSHOT:compile
+[INFO] +- cn.magicwindow:mv_common_newjava:jar:1.0-SNAPSHOT:compile
+[INFO] |  +- com.jcraft:jsch:jar:0.1.51:compile
+[INFO] |  +- ch.ethz.ganymed:ganymed-ssh2:jar:build210:compile
+[INFO] |  \- com.datastax.cassandra:cassandra-driver-core:jar:3.1.0:compile
+[INFO] |     +- io.netty:netty-handler:jar:4.0.37.Final:compile
+[INFO] |     |  +- io.netty:netty-buffer:jar:4.0.37.Final:compile
+[INFO] |     |  |  \- io.netty:netty-common:jar:4.0.37.Final:compile
+[INFO] |     |  +- io.netty:netty-transport:jar:4.0.37.Final:compile
+[INFO] |     |  \- io.netty:netty-codec:jar:4.0.37.Final:compile
+[INFO] |     +- com.google.guava:guava:jar:16.0.1:compile
+[INFO] |     +- io.dropwizard.metrics:metrics-core:jar:3.1.2:compile
+[INFO] |     |  \- org.slf4j:slf4j-api:jar:1.7.7:compile
+[INFO] |     +- com.github.jnr:jnr-ffi:jar:2.0.7:compile
+[INFO] |     |  +- com.github.jnr:jffi:jar:1.2.10:compile
+[INFO] |     |  +- com.github.jnr:jffi:jar:native:1.2.10:runtime
+[INFO] |     |  +- org.ow2.asm:asm:jar:5.0.3:compile
+[INFO] |     |  +- org.ow2.asm:asm-commons:jar:5.0.3:compile
+[INFO] |     |  +- org.ow2.asm:asm-analysis:jar:5.0.3:compile
+[INFO] |     |  +- org.ow2.asm:asm-tree:jar:5.0.3:compile
+[INFO] |     |  +- org.ow2.asm:asm-util:jar:5.0.3:compile
+[INFO] |     |  \- com.github.jnr:jnr-x86asm:jar:1.0.2:compile
+[INFO] |     \- com.github.jnr:jnr-posix:jar:3.0.27:compile
+[INFO] |        \- com.github.jnr:jnr-constants:jar:0.9.0:compile
+[INFO] +- org.jsoup:jsoup:jar:1.8.3:compile
+[INFO] +- commons-codec:commons-codec:jar:1.10:compile
+[INFO] +- dom4j:dom4j:jar:1.6.1:compile
+[INFO] |  \- xml-apis:xml-apis:jar:1.0.b2:compile
+[INFO] \- jaxen:jaxen:jar:1.1.1:compile
+[INFO]    +- jdom:jdom:jar:1.0:compile
+[INFO]    +- xerces:xercesImpl:jar:2.6.2:compile
+[INFO]    \- xom:xom:jar:1.0:compile
+[INFO]       +- xerces:xmlParserAPIs:jar:2.6.2:compile
+[INFO]       +- xalan:xalan:jar:2.6.0:compile
+[INFO]       \- com.ibm.icu:icu4j:jar:2.6.1:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3.381 s
+[INFO] Finished at: 2017-09-13T09:43:13+08:00
+[INFO] Final Memory: 17M/202M
+[INFO] ------------------------------------------------------------------------
