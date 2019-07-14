@@ -7,6 +7,7 @@
 package com.funnyai.fs;
 
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.net.Old.S_Net;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -50,10 +51,10 @@ public class C_Map_Function {
                     this.Var3=pObj.getString("Var3");
                     
                 }catch(JSONException e){
-                    Tools.Write_DebugLog("json", "url:"+strURL+"\nlength:"+strJSON.length()+",json:"+strJSON+"\n"+e.toString());
+                    S_Debug.Write_DebugLog("json", "url:"+strURL+"\nlength:"+strJSON.length()+",json:"+strJSON+"\n"+e.toString());
                 }
             }else{
-                Tools.Write_DebugLog("json", "url:"+strURL+"\n json:"+strJSON);
+                S_Debug.Write_DebugLog("json", "url:"+strURL+"\n json:"+strJSON);
             }
         }else{
             System.out.println("read error, ID="+this.Session_ID+"&id="+this.Node_ID);
@@ -77,6 +78,6 @@ public class C_Map_Function {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("save_map_function_var.php",Session_ID+","+this.Node_ID+strContent);
+        S_Debug.Write_DebugLog("save_map_function_var.php",Session_ID+","+this.Node_ID+strContent);
     }
 }

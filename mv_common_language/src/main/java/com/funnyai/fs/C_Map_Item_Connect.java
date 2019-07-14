@@ -1,6 +1,7 @@
 package com.funnyai.fs;
 
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.net.Old.S_Net;
 import com.funnyai.string.Old.S_Strings;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class C_Map_Item_Connect {
         int index = strJSON.indexOf("{");
         if (index > -1) {
             strJSON = strJSON.substring(index);
-            Tools.Write_DebugLog("read.json",strJSON,false);
+            S_Debug.Write_DebugLog("read.json",strJSON,false);
             try
             {
                 JSONObject pObj = new JSONObject(strJSON);
@@ -128,7 +129,7 @@ public class C_Map_Item_Connect {
         int index = strJSON.indexOf("{");
         if (index > -1) {
             strJSON = strJSON.substring(index);
-            Tools.Write_DebugLog("read.json",strJSON,false);
+            S_Debug.Write_DebugLog("read.json",strJSON,false);
             try
             {
                 JSONObject pObj = new JSONObject(strJSON);

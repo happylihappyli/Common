@@ -7,6 +7,7 @@ package com.funnyai.language;
 
 import com.funnyai.data.Treap;
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.io.C_File;
 import com.funnyai.io.Old.S_File;
 import com.funnyai.io.Old.S_File_Text;
@@ -139,7 +140,7 @@ public class Tools_File {
             }
         }
 
-        Tools.Write_DebugLog("file.replace.column","file="+strPath);
+        S_Debug.Write_DebugLog("file.replace.column","file="+strPath);
         
         strReturn=S_File.File_Replace_Column(strPath,strPath2,strSep,index,strSepCombine,strFind,strReplace);
         System.out.println(strReturn);
@@ -187,7 +188,7 @@ public class Tools_File {
             }
         }
 
-        Tools.Write_DebugLog("file.replace.start","file"+strPath);
+        S_Debug.Write_DebugLog("file.replace.start","file"+strPath);
         
         if (S_File.Exists(strPath)){
             S_File.File_Replace_With_Start(strPath, strStart, strReplace);
@@ -230,7 +231,7 @@ public class Tools_File {
             }
         }
 
-        Tools.Write_DebugLog("fs.delete","file.exists="+strPath);
+        S_Debug.Write_DebugLog("fs.delete","file.exists="+strPath);
         
         if (S_File.Exists(strPath)){
             S_File.Delete(strPath);
@@ -263,7 +264,7 @@ public class Tools_File {
             }
         }
 
-        Tools.Write_DebugLog("fs.run","file.exists.hadoop="+strPath);
+        S_Debug.Write_DebugLog("fs.run","file.exists.hadoop="+strPath);
         
         if (Tools.Hadoop_File_Exists(strPath)==0){
             strReturn="1";
@@ -295,7 +296,7 @@ public class Tools_File {
             }
         }
 
-        Tools.Write_DebugLog("fs.run","file.exists="+strPath);
+        S_Debug.Write_DebugLog("fs.run","file.exists="+strPath);
         
         if (S_File.Exists(strPath)){
             strReturn="1";

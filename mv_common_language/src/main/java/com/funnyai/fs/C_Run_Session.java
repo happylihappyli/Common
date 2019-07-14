@@ -2,6 +2,7 @@
 package com.funnyai.fs;
 
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.net.Old.S_Net;
 import com.funnyai.string.Old.S_Strings;
 import java.io.UnsupportedEncodingException;
@@ -39,7 +40,7 @@ public class C_Run_Session {
                +"/funnyscript/json_get_map_session.php?id="+ID+"&priority="+priority+"&ip="+S_Strings.URL_Encode(AI_Var2.local_ip);
         String strJSON=S_Net.http_GET(strURL,"", "utf-8", "",20);
         
-        Tools.Write_DebugLog("Session.C_Run_Session",ID+"\n"+strJSON);
+        S_Debug.Write_DebugLog("Session.C_Run_Session",ID+"\n"+strJSON);
         int index=strJSON.indexOf("{");
         strJSON=strJSON.substring(index);
         JSONObject pObj=new JSONObject(strJSON);
@@ -81,11 +82,11 @@ public class C_Run_Session {
                     +"&run_type="+URLEncoder.encode(this.Run_Type+"","utf-8")
                     +"&Upload_ID="+URLEncoder.encode(this.Upload_ID+"","utf-8")
                     +"&DB="+URLEncoder.encode(this.DB+"","utf-8");
-            Tools.Write_DebugLog("Session.Save_To_DB",strURL);
-            Tools.Write_DebugLog("Session.Save_To_DB",strData);
+            S_Debug.Write_DebugLog("Session.Save_To_DB",strURL);
+            S_Debug.Write_DebugLog("Session.Save_To_DB",strData);
             S_Net.http_post(strURL,strData);//, "utf-8","", false);
         } catch (UnsupportedEncodingException ex) {
-            Tools.Write_DebugLog("Save_To_DB",ex.toString());
+            S_Debug.Write_DebugLog("Save_To_DB",ex.toString());
         }
 
     }
@@ -115,9 +116,9 @@ public class C_Run_Session {
                 this.Bat=pObj.getInt("Bat");
                 this.Run_Type=pObj.getString("Run_Type");
             }catch(Exception ex){
-                Tools.Write_DebugLog("Session.Read_JSON",strURL);
-                Tools.Write_DebugLog("Session.Read_JSON",strJSON);
-                Tools.Write_DebugLog("Session.Read_JSON",ex.toString());
+                S_Debug.Write_DebugLog("Session.Read_JSON",strURL);
+                S_Debug.Write_DebugLog("Session.Read_JSON",strJSON);
+                S_Debug.Write_DebugLog("Session.Read_JSON",ex.toString());
                 System.out.println(strJSON);
                 ex.printStackTrace();
             }

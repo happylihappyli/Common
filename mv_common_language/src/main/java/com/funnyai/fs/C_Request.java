@@ -1,5 +1,6 @@
 package com.funnyai.fs;
 
+import com.funnyai.common.S_Debug;
 import java.io.UnsupportedEncodingException;
 
 import com.funnyai.data.C_K_Str;
@@ -36,17 +37,17 @@ public class C_Request {
                 String strKey = strSplit2[0];
                 String strValue = strSplit2[1];
                 String strValue2="";
-//                Tools.Write_DebugLog("request","data=\n"+strValue);
+//                S_Debug.Write_DebugLog("request","data=\n"+strValue);
                 try {
                     if (!"".equals(strValue)){
                         strValue2 = java.net.URLDecoder.decode(strValue, "utf-8");
                     }
                 } catch (UnsupportedEncodingException ex) {
-                    Tools.Write_DebugLog("request","error=\n"+strValue2);
+                    S_Debug.Write_DebugLog("request","error=\n"+strValue2);
                     //Logger.getLogger(C_Request.class.getName()).log(Level.SEVERE, null, ex);
                 }
-//                Tools.Write_DebugLog("request","key=\n"+strKey);
-//                Tools.Write_DebugLog("request","value=\n"+strValue2);
+//                S_Debug.Write_DebugLog("request","key=\n"+strKey);
+//                S_Debug.Write_DebugLog("request","value=\n"+strValue2);
                 pParam.insert(new C_K_Str(strKey), strValue2);
             }
         }

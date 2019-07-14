@@ -6,6 +6,7 @@ import com.funnyai.data.Treap;
 import com.funnyai.Segmentation.*;
 import com.funnyai.NLP.I_Robot;
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.fs.Tools;
 import com.funnyai.io.Old.S_File_Text;
 import com.funnyai.net.Old.S_Net;
@@ -110,7 +111,7 @@ public class C_Robot extends I_Robot {
         int index = strReturn.indexOf("{");
         if (index > -1) {
             String strJSON = strReturn.substring(index);
-            Tools.Write_DebugLog("read.json",strJSON,false);
+            S_Debug.Write_DebugLog("read.json",strJSON,false);
             try
             {
                 JSONObject pObj = new JSONObject(strJSON);

@@ -4,6 +4,7 @@
 package com.funnyai.fs;
 
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.io.C_File;
 import com.funnyai.io.Old.S_File;
 import com.funnyai.net.Old.S_Net;
@@ -31,7 +32,7 @@ public class C_Log {
         this.Session_ID=Session_ID;
         
         strFile=AI_Var2.Path_Log+Item_ID+"_"+Session_ID+"."+strHead+".log";
-        Tools.Write_DebugLog("FileName", "file="+strFile);
+        S_Debug.Write_DebugLog("FileName", "file="+strFile);
         pFile = S_File.Write_Begin(strFile, true, "utf-8");
     }
     
@@ -72,8 +73,8 @@ public class C_Log {
                 +"/funnyscript/save_log_exitcode.php?id="+Item_ID
                 +"&session="+pRun_Session.ID+"&function_call="+Function_Call+"&try="+Try_Times+"&exitcode="+exitCode;
         String strContent=S_Net.http_GET(strURL,"", "utf-8","",20);
-        Tools.Write_DebugLog("exitcode", strURL);
-        Tools.Write_DebugLog("exitcode", strContent);
+        S_Debug.Write_DebugLog("exitcode", strURL);
+        S_Debug.Write_DebugLog("exitcode", strContent);
     }
     
     
@@ -94,9 +95,9 @@ public class C_Log {
             String strData="";
             strData = "filename="+URLEncoder.encode(AI_Var2.Path_Log+Item_ID+"_"+Session_ID,"UTF-8")+"&machine="+AI_Var2.machine_id;
             String strReturn=S_Net.http_post(strURL,strData);
-            Tools.Write_DebugLog("FileName","F=" + strFile);
-            Tools.Write_DebugLog("FileName","AI_Var2.machine_id=" + AI_Var2.machine_id);
-            Tools.Write_DebugLog("FileName","R=" + strReturn);
+            S_Debug.Write_DebugLog("FileName","F=" + strFile);
+            S_Debug.Write_DebugLog("FileName","AI_Var2.machine_id=" + AI_Var2.machine_id);
+            S_Debug.Write_DebugLog("FileName","R=" + strReturn);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(C_Log.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -119,8 +120,8 @@ public class C_Log {
                 +"/funnyscript/save_log_cpu.php?id="+Item_ID
                 +"&session="+pRun_Session.ID+"&function_call="+Function_Call+"&try="+Try_Times+"&cpu="+cpu;
         String strContent=S_Net.http_GET(strURL,"","utf-8","",20);
-        Tools.Write_DebugLog("cpu", strURL);
-        Tools.Write_DebugLog("cpu", strContent);
+        S_Debug.Write_DebugLog("cpu", strURL);
+        S_Debug.Write_DebugLog("cpu", strContent);
     }
     
     public static void Save_Machine(
@@ -132,8 +133,8 @@ public class C_Log {
                 +"&session="+pRun_Session.ID+"&function_call="+Function_Call
                 +"&try="+Try_Times+"&value="+AI_Var2.local_ip+"&machine="+AI_Var2.machine_id;;
         String strContent=S_Net.http_GET(strURL,"", "utf-8","",20);
-        Tools.Write_DebugLog("cpu", strURL);
-        Tools.Write_DebugLog("cpu", strContent);
+        S_Debug.Write_DebugLog("cpu", strURL);
+        S_Debug.Write_DebugLog("cpu", strContent);
     }
 
     public void end_write() {

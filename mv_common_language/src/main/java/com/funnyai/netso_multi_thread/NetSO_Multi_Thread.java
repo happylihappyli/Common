@@ -16,6 +16,7 @@ import com.funnyai.NLP.*;
 import com.funnyai.Segmentation.C_Token_Link_and_Add;
 import com.funnyai.Segmentation.C_Word_Convert;
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.fs.Tools;
 import com.funnyai.io.C_File;
 import com.funnyai.io.Old.S_File;
@@ -161,8 +162,8 @@ public class NetSO_Multi_Thread {
                     break;
                 }
             }catch(Exception ex){
-                Tools.Write_DebugLog("json_error",strReturn);
-                Tools.Write_DebugLog("json_error",ex.toString());
+                S_Debug.Write_DebugLog("json_error",strReturn);
+                S_Debug.Write_DebugLog("json_error",ex.toString());
                 
                 out.println("strReturn");
                 out.println(strReturn);

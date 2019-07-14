@@ -15,6 +15,7 @@ import com.funnyai.Segmentation.*;
 import com.funnyai.NLP.*;
 import com.funnyai.Math.Old.S_Math;
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.fs.Tools;
 import com.funnyai.net.Old.S_Net;
 import java.util.ArrayList;
@@ -231,8 +232,8 @@ public class NetSO {
                     break;
                 }
             }catch(JSONException ex){
-                Tools.Write_DebugLog("json_error",strReturn);
-                Tools.Write_DebugLog("json_error",ex.toString());
+                S_Debug.Write_DebugLog("json_error",strReturn);
+                S_Debug.Write_DebugLog("json_error",ex.toString());
                 out.println(strReturn);
                 ex.printStackTrace();
             }

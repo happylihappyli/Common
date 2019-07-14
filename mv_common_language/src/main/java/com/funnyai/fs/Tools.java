@@ -4,6 +4,7 @@ import com.funnyai.io.Old.*;
 import com.funnyai.Time.Old.S_Time;
 import com.funnyai.common.AI_Var2;
 import com.funnyai.common.S_Command;
+import com.funnyai.common.S_Debug;
 import com.funnyai.data.C_K_Int;
 import com.funnyai.data.C_K_Str;
 import com.funnyai.io.C_File;
@@ -156,18 +157,7 @@ public class Tools {
         return strContent;
     }
     
-    public static void Write_DebugLog(String File_Tag,String strLog)
-    {
-        Write_DebugLog(File_Tag,strLog,true);
-    }
     
-    public static void Write_DebugLog(String File_Tag,String strLog,boolean bShow)
-    {
-        if (bShow){
-            out.println(S_Time.now_YMD_Hms()+"\t\t"+strLog);
-        }
-        S_File_Text.Append(AI_Var2.Path_Log+File_Tag+".txt",S_Time.now_YMD_Hms()+"\t\t"+strLog);
-    }
     
     
     public static void Stop_Command(long Session_ID,long ID)
@@ -216,10 +206,10 @@ public class Tools {
         int dbValue=0;
         try {
             String strValue = S_Command.RunShell_Return("free -m|awk 'NR==2 {print $2-$3}'",10);//"free -m|awk 'NR==2 {print $4}'");
-            Tools.Write_DebugLog("debug"," Get_Free_Memory strValue1="+strValue);
+            S_Debug.Write_DebugLog("debug"," Get_Free_Memory strValue1="+strValue);
             dbValue+=S_Strings.getIntFromStr(strValue,0);
             strValue = S_Command.RunShell_Return("free -m|awk 'NR==3 {print $4}'",10);
-            Tools.Write_DebugLog("debug"," Get_Free_Memory strValue2="+strValue);
+            S_Debug.Write_DebugLog("debug"," Get_Free_Memory strValue2="+strValue);
             dbValue+=S_Strings.getIntFromStr(strValue,0);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -233,9 +223,9 @@ public class Tools {
     public static float Get_Hadop_Memory() {
         float dbMemory=0;
         try {
-            Tools.Write_DebugLog("debug"," run command hadoop job -list|awk '{a=a+$9}END{print a}'");
+            S_Debug.Write_DebugLog("debug"," run command hadoop job -list|awk '{a=a+$9}END{print a}'");
             String strUsed = S_Command.RunShell_Return("hadoop job -list|awk '{a=a+$9}END{print a}'",10);
-            Tools.Write_DebugLog("debug"," Get_Memory strUsed="+strUsed);
+            S_Debug.Write_DebugLog("debug"," Get_Memory strUsed="+strUsed);
             System.out.println(strUsed);
             if ("".equals(strUsed)) return 0;
             dbMemory=Float.valueOf(strUsed);//(Float.valueOf(strUsed)+Float.valueOf(strRemain));
@@ -271,7 +261,7 @@ public class Tools {
         try {
             String strValue = S_Command.RunShell_Return("hadoop job -list|awk '{if ($2 ~ /PREP/) a=a+1}END{print a}'",10);
             System.out.println(strValue);
-            Tools.Write_DebugLog("debug"," Get_Job_List_Prepare strValue="+strValue);
+            S_Debug.Write_DebugLog("debug"," Get_Job_List_Prepare strValue="+strValue);
             iValue=S_Strings.getIntFromStr(strValue,0);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -289,7 +279,7 @@ public class Tools {
         try {
             //String strUsed = C_Command.RunShell_Return("hadoop job -list|awk '{a=a+$7}END{print a}'");
             String strUsed = S_Command.RunShell_Return("ps aux|grep "+AI_Var2.Path_Shell+"|awk '{a=a+1}END{print a}'",10);
-            Tools.Write_DebugLog("debug"," Get_Process_Count strUsed="+strUsed);
+            S_Debug.Write_DebugLog("debug"," Get_Process_Count strUsed="+strUsed);
             if ("".equals(strUsed)) return 0;
             dbPercent=Float.valueOf(strUsed);
         } catch (Exception ex) {
@@ -316,7 +306,7 @@ public class Tools {
                     strReturn=strReturn.replace("\n","");
                     strReturn=strReturn.replace("\\r","");
                     strReturn=strReturn.replace("\\n","");
-                    Tools.Write_DebugLog("debug"," Get_Apps_Pending strReturn="+strReturn);
+                    S_Debug.Write_DebugLog("debug"," Get_Apps_Pending strReturn="+strReturn);
                     dbValue+=S_Strings.getIntFromStr(strReturn,0);
                 }
             }

@@ -5,9 +5,9 @@ import com.funnyai.io.C_File;
 import com.funnyai.Time.Old.S_Time;
 import com.funnyai.common.AI_Var2;
 import com.funnyai.common.S_Command;
+import com.funnyai.common.S_Debug;
 import com.funnyai.data.C_K_Int;
 import com.funnyai.data.C_K_Str;
-import static com.funnyai.fs.Tools.Write_DebugLog;
 import com.funnyai.math.S_math;
 import com.funnyai.net.Old.S_Net;
 import com.funnyai.netso.C_Session_AI;
@@ -88,14 +88,14 @@ public class C_Job extends C_Map_Item{
                     }else if (pJob_From.pRun.Status.equals("remove")){
                         this.pRun.Save_Status("remove");
                     }else{
-                        Tools.Write_DebugLog("Check_Job_Active_Or_Prepare_Active_Level_1",
+                        S_Debug.Write_DebugLog("Check_Job_Active_Or_Prepare_Active_Level_1",
                                 " not active:session="+this.pRun_Session.ID
                                         +",table="+ID2+",job.ID="+pJob_From.ID+" job.Name="+pJob_From.Name);
                         bActive2=false;
                     }
                 }
             }else{
-                Tools.Write_DebugLog("Check_Job_Active_Or_Prepare_Active_Level_1",
+                S_Debug.Write_DebugLog("Check_Job_Active_Or_Prepare_Active_Level_1",
                                 " json.error json="+strJSON);
             }
         }
@@ -136,7 +136,7 @@ public class C_Job extends C_Map_Item{
         String strStatus=pObj.getString("Status");
         
         if (strStatus.equals("0")){
-            Tools.Write_DebugLog("json_check_item_active_prepare",S_Time.now_HH_mm()+"\n"+strURL);
+            S_Debug.Write_DebugLog("json_check_item_active_prepare",S_Time.now_HH_mm()+"\n"+strURL);
         }
         
         return "1".equals(strStatus);
@@ -160,17 +160,17 @@ public class C_Job extends C_Map_Item{
             return ;
         }
         
-        Tools.Write_DebugLog("Try_Times","s="+this.pRun_Session.ID+",ID="+this.ID+":"+pRun.Try_Times+","+this.Retry_Times);
+        S_Debug.Write_DebugLog("Try_Times","s="+this.pRun_Session.ID+",ID="+this.ID+":"+pRun.Try_Times+","+this.Retry_Times);
         if (pRun.Try_Times>=this.Retry_Times){
             Remove_Process();
-            Tools.Write_DebugLog("Try_Times","s="+this.pRun_Session.ID+",ID="+this.ID+":重试超过"+this.Retry_Times);
+            S_Debug.Write_DebugLog("Try_Times","s="+this.pRun_Session.ID+",ID="+this.ID+":重试超过"+this.Retry_Times);
             return ;
         }
         
         if (this.Active_Level==1){//必须所有的输入的表的输入任务激活才跑这个任务！
-            Tools.Write_DebugLog("Run","Run step1 Active=1,ID="+this.ID);
+            S_Debug.Write_DebugLog("Run","Run step1 Active=1,ID="+this.ID);
             if (this.Check_Job_Active_Or_Prepare_Active_Level_1("")==false){
-                Tools.Write_DebugLog("Active_Level_1","not active:session="+this.pRun_Session.ID+",ID="+this.ID);
+                S_Debug.Write_DebugLog("Active_Level_1","not active:session="+this.pRun_Session.ID+",ID="+this.ID);
                 return ;
             }else{
                 if (!"running".equals(this.pRun.Status)){
@@ -186,7 +186,7 @@ public class C_Job extends C_Map_Item{
         }
         this.Update_Info();//重新读取数据库内容
         if (this.No_AutoRun==1){
-            Tools.Write_DebugLog("","!!! 设置过不调度 ID="+ID);
+            S_Debug.Write_DebugLog("","!!! 设置过不调度 ID="+ID);
             pRun.Save_Status("设置过不调度");
             return ;//如果设置过不调度，则不自动运行
         }
@@ -198,27 +198,27 @@ public class C_Job extends C_Map_Item{
         boolean bRun=true;
         String strError="";
         if (bActive){
-            Tools.Write_DebugLog(""," bActive=true, ID="+ID);
+            S_Debug.Write_DebugLog(""," bActive=true, ID="+ID);
         }else if (pRun_Session.bAlone){// 如果是单独运行，这个节点的状态就是激活的
-            Tools.Write_DebugLog("","!!! 单独任务启动 ID="+ID);
+            S_Debug.Write_DebugLog("","!!! 单独任务启动 ID="+ID);
         }else if (pRun_Session.Start_ID == ID){
-            Tools.Write_DebugLog("","!!! 第一个节点启动 ID="+ID);
+            S_Debug.Write_DebugLog("","!!! 第一个节点启动 ID="+ID);
         }else{
             if (pRun_Session.Bat==1){  //如果是跑批量任务
-                Tools.Write_DebugLog("","准备跑批量任务 ID="+ID);
+                S_Debug.Write_DebugLog("","准备跑批量任务 ID="+ID);
             }else{  //如果不是跑批量任务
-                Tools.Write_DebugLog("","如果不是跑批量任务 ID="+ID);
+                S_Debug.Write_DebugLog("","如果不是跑批量任务 ID="+ID);
                 if (this.bActive && S_Time.now_YMD_HM().equals(this.Run_YMD_HM)){
-                    Tools.Write_DebugLog("","!!! 如果跑过了且是同1分钟，则不再运行 ID="+ID);
+                    S_Debug.Write_DebugLog("","!!! 如果跑过了且是同1分钟，则不再运行 ID="+ID);
                     return ;
                 }
             }
             
             if (this.Active_Level==1){//必须所有的输入的表的输入任务激活才跑这个任务！
-                Tools.Write_DebugLog("Run",S_Time.now_HH_mm()
+                S_Debug.Write_DebugLog("Run",S_Time.now_HH_mm()
                         + "Run Step2 Active=1,ID="+this.ID);
                 if (Check_Job_Active_Or_Prepare_Active_Level_1("")==false){
-                    Tools.Write_DebugLog("Check_Job_Active_Or_Prepare_Active_Level_1","not active,level=1:"+this.ID);
+                    S_Debug.Write_DebugLog("Check_Job_Active_Or_Prepare_Active_Level_1","not active,level=1:"+this.ID);
                     bRun=false;
                 }
             }else{//必须所有的输入都激活才跑这个任务！
@@ -236,9 +236,9 @@ public class C_Job extends C_Map_Item{
                 pRun.Save_Status("不是批量任务");//子函数不需要恢复！
                 
                 //this.pCommand.pSB_Error.Save_FileName(pRun_Session.ID,this.ID,Function_Call,this.pMap_Run.Try_Times);//,true, pRun_Session.Param, strError);
-                Tools.Write_DebugLog("error",strError);
+                S_Debug.Write_DebugLog("error",strError);
             }else{
-                Tools.Write_DebugLog("","准备跑批量任务");
+                S_Debug.Write_DebugLog("","准备跑批量任务");
             }
         }
 
@@ -250,7 +250,7 @@ public class C_Job extends C_Map_Item{
     public void Run_Sub1(int Function_Call,int Try_Times,String Start_From){
         this.bActive=true;
         this.Run_YMD_HM=S_Time.now_YMD_HM();
-        Tools.Write_DebugLog("","准备运行Task="+ID);
+        S_Debug.Write_DebugLog("","准备运行Task="+ID);
 //        C_Log.Save_Output(pRun_Session.ID,this.ID,Function_Call,Try_Times,false,
 //                pRun_Session.Param,"session:"+this.pRun_Session.ID);
 
@@ -272,12 +272,12 @@ public class C_Job extends C_Map_Item{
         String strFile_Node=AI_Var2.Path_Shell+"node_"+ID+".sh";
         if (S_File.Exists(strFile_Node)==false){
             String strContent=Tools.File_Save(ID,strFile_Node,true);
-            Tools.Write_DebugLog("save", strContent);
+            S_Debug.Write_DebugLog("save", strContent);
         }
         String strFile=AI_Var2.Path_Shell+"t_"+pRun.Function_Call+"_"+pRun_Session.ID+"_"+ID+".sh";
         //输入节点替换
-        Tools.Write_DebugLog("job_id","file="+strFile);
-        Tools.Write_DebugLog("job_id","jid="+this.pRun.Job_ID);
+        S_Debug.Write_DebugLog("job_id","file="+strFile);
+        S_Debug.Write_DebugLog("job_id","jid="+this.pRun.Job_ID);
         if (!"".equals(this.pRun.Job_ID)){
             try {
                 S_Command.RunShell_Return2("hadoop job -kill "+this.pRun.Job_ID);
@@ -303,14 +303,14 @@ public class C_Job extends C_Map_Item{
         String strFile_Node=AI_Var2.Path_Shell+"node_"+ID+".sh";
         if (S_File.Exists(strFile_Node)==false){
             String strContent=Tools.File_Save(ID,strFile_Node,true);
-            Tools.Write_DebugLog("save", strContent);
+            S_Debug.Write_DebugLog("save", strContent);
         }
         String strFile=AI_Var2.Path_Shell+"t_"+pRun.Function_Call+"_"+pRun_Session.ID+"_"+ID+".sh";
         C_File pFile = S_File.Write_Begin(strFile, false,"");
         //输入节点替换
         String strContent="";
-        Tools.Write_DebugLog("job_id","file="+strFile);
-        Tools.Write_DebugLog("job_id","jid="+this.pRun.Job_ID);
+        S_Debug.Write_DebugLog("job_id","file="+strFile);
+        S_Debug.Write_DebugLog("job_id","jid="+this.pRun.Job_ID);
         Remove_Process();
         String [] strSplit=this.Get_From_IDs().split(",");
         for (int i=0;i<strSplit.length;i++)
@@ -378,7 +378,7 @@ public class C_Job extends C_Map_Item{
             }
         }
 
-        Tools.Write_DebugLog("",strContent);
+        S_Debug.Write_DebugLog("",strContent);
         S_File.Write_Line(pFile, strContent);
         pFile.Close();
         try {
@@ -388,7 +388,7 @@ public class C_Job extends C_Map_Item{
         }
 
         pRun_Session.RunJob_Count+=1;
-        Tools.Write_DebugLog("run",pRun_Session.ID+","+ID+","+pRun.Try_Times+","+Start_From);
+        S_Debug.Write_DebugLog("run",pRun_Session.ID+","+ID+","+pRun.Try_Times+","+Start_From);
 
         if (this.ItemType.equals("fs.switch")){// || this.ItemType.equals("fs.check")){
             strContent= this.GetProgram(pRun_Session,true);
@@ -409,7 +409,7 @@ public class C_Job extends C_Map_Item{
                 }
             }
             strContent="fs.run id=" + Run_ID;
-            Tools.Write_DebugLog("fs.switch","FS.Run="+Run_ID);
+            S_Debug.Write_DebugLog("fs.switch","FS.Run="+Run_ID);
             String strLog=strContent+"\n";
             
             String strProgram="";
@@ -436,7 +436,7 @@ public class C_Job extends C_Map_Item{
             }
             strContent=this.Run_Program(pSession,null,pRun_Session2,0,Run_ID,strProgram,null,pList);
             strLog+=strContent+"\n";
-            Tools.Write_DebugLog("fs.switch","fs.switch="+strContent);
+            S_Debug.Write_DebugLog("fs.switch","fs.switch="+strContent);
             int iSwitch=S_Strings.getIntFromStr(strContent,0);
 
             strSplit=this.Get_To_IDs().split(",");
@@ -456,10 +456,10 @@ public class C_Job extends C_Map_Item{
         }else{
             pRun.Save_Status("running",Start_From);
             pRun.Save_Try_Times();
-            Tools.Write_DebugLog("shell_command",pRun_Session.ID+","+ID+","+strFile);
+            S_Debug.Write_DebugLog("shell_command",pRun_Session.ID+","+ID+","+strFile);
             strContent=this.Run_Shell_Command(pRun_Session,false,strFile,"");
         }
-        Tools.Write_DebugLog("",strContent);
+        S_Debug.Write_DebugLog("",strContent);
         
         
     }
@@ -491,7 +491,7 @@ public class C_Job extends C_Map_Item{
         pCommand.pSB_Output.Save_FileName();
         
 
-        Write_DebugLog("","pJob<>null",false);
+        S_Debug.Write_DebugLog("","pJob<>null",false);
 
         pCommand2.Encode=Encode;//gb2312
 
@@ -509,7 +509,7 @@ public class C_Job extends C_Map_Item{
     
     public void Run_Sub1_Function(int Function_Call,int Try_Times,String Start_From){
         pRun.Save_Status("子函数不需要恢复");//子函数不需要恢复！
-        Tools.Write_DebugLog("","运行 function 子函数调用");
+        S_Debug.Write_DebugLog("","运行 function 子函数调用");
         //函数映射功能！激活子空间的调度图
         JSONObject pObj=new JSONObject(this.Program);
         String strInput=pObj.getString("input");
@@ -849,7 +849,7 @@ public class C_Job extends C_Map_Item{
         //运行库里先删除掉
         pRun.Save_Status("finished");//状态
         if (pRun_Session.Continue==0){
-            Tools.Write_DebugLog("finished","Continue=0 id="+this.ID);
+            S_Debug.Write_DebugLog("finished","Continue=0 id="+this.ID);
             return ;
         }
         
@@ -870,7 +870,7 @@ public class C_Job extends C_Map_Item{
             if (pRun_Session.bAlone==false){//如果不是单独运行的Job,就运行后面的东西
                 Continue_Run_Next(pRun_Session);
             }else{
-                Tools.Write_DebugLog("finished","pRun_Session.bAlone=true id="+this.ID);
+                S_Debug.Write_DebugLog("finished","pRun_Session.bAlone=true id="+this.ID);
             }
         }
     }
@@ -886,13 +886,13 @@ public class C_Job extends C_Map_Item{
     public void Check_Next_Task(C_Run_Session pRun_Session,int iStep,int iCheckNext,
             boolean Zero_Save_Continue,boolean bCheck_Sub_Function){
         if (this.No_AutoRun==1){
-            Tools.Write_DebugLog("prepare","不调度 id="+this.ID+" step="+iStep);
+            S_Debug.Write_DebugLog("prepare","不调度 id="+this.ID+" step="+iStep);
             return ;
         }
-        Tools.Write_DebugLog("prepare","id="+this.ID+" step="+iStep);
+        S_Debug.Write_DebugLog("prepare","id="+this.ID+" step="+iStep);
         
         if (bCheck_Sub_Function && this.ItemType != null && this.ItemType.toLowerCase().equals("function")) {
-            Tools.Write_DebugLog("", "check 子函数调用");
+            S_Debug.Write_DebugLog("", "check 子函数调用");
             //函数映射功能！激活子空间的调度图
             JSONObject pObj = new JSONObject(this.Program);
             String strInput = pObj.getString("input");
@@ -946,14 +946,14 @@ public class C_Job extends C_Map_Item{
      */
     public void Continue_Run_Next(C_Run_Session pRun_Session){
         if ("hive".equals(this.Type_Run)){//如果是表的hive查询,注意不是hive节点
-            Tools.Write_DebugLog("finished","hive return id="+this.ID);
+            S_Debug.Write_DebugLog("finished","hive return id="+this.ID);
             return ;
         }else{
-            Tools.Write_DebugLog("finished","not hive return id="+this.ID);
+            S_Debug.Write_DebugLog("finished","not hive return id="+this.ID);
         }
         
         String strIDs=Get_To_IDs();
-        Tools.Write_DebugLog("finished","id="+this.ID+" Get_To_IDs="+strIDs);
+        S_Debug.Write_DebugLog("finished","id="+this.ID+" Get_To_IDs="+strIDs);
         String[] strSplit=strIDs.split(",");
         for (String strSplit1 : strSplit) {
             if ("".equals(strSplit1)) {
@@ -998,7 +998,7 @@ public class C_Job extends C_Map_Item{
             bError=true;
             System.out.println("strJSON="+strJSON);
             e.printStackTrace();
-            Tools.Write_DebugLog("C_Job.json.error",
+            S_Debug.Write_DebugLog("C_Job.json.error",
                         "\n===json error===\n"+e.toString());
         }
         pRun.Read_Json();

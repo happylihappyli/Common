@@ -5,6 +5,7 @@
 package com.funnyai.fs;
 
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.language.Tools_FS;
 import com.funnyai.language.Tools_GetParam;
 import com.funnyai.language.Tools_SYS;
@@ -162,7 +163,7 @@ public class C_Map_Item {
             int index2 = strJSON.indexOf("}",index);
             if (index2>index+10){
                 strJSON = strJSON.substring(index);
-                Tools.Write_DebugLog("read.json", strJSON, false);
+                S_Debug.Write_DebugLog("read.json", strJSON, false);
                 try {
                     JSONObject pObj = new JSONObject(strJSON);
                     this.Name = pObj.getString("Name");
@@ -1783,7 +1784,7 @@ public class C_Map_Item {
             if (ID > 0) {
                 C_Job pJob = pRun_Session.Read_Job(Function_Call, ID);//获取task信息
                 strProgram = pJob.Program_Output;
-                Tools.Write_DebugLog("Run_Program", "ID=" + ID + "\n" + strProgram, false);
+                S_Debug.Write_DebugLog("Run_Program", "ID=" + ID + "\n" + strProgram, false);
             }
 
             if (strProgram != null && !"".equals(strProgram)) {

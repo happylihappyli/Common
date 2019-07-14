@@ -1,6 +1,7 @@
 package com.funnyai.fs;
 
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.net.Old.S_Net;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -44,7 +45,7 @@ public class C_Map_Run {
                 +"&id="+this.Node_ID+"&function_call="+this.Function_Call+"&machine="+AI_Var2.machine_id;
         
         String strJSON=S_Net.http_GET(strURL,"", "utf-8", "", 20);
-        Tools.Write_DebugLog("map_run.read_json", "map_run:"+strJSON);
+        S_Debug.Write_DebugLog("map_run.read_json", "map_run:"+strJSON);
         
         int index=strJSON.indexOf("{");
         if (index>-1){
@@ -61,11 +62,11 @@ public class C_Map_Run {
                     this.Caller_Function_ID=pObj.getInt("Function_ID");//返回节点的ID
                     this.Caller_Function_Call=pObj.getInt("Return_Function_Call");//返回节点的函数空间
                 }catch(JSONException e){
-                    Tools.Write_DebugLog("json", "url:"+strURL+"\n"
+                    S_Debug.Write_DebugLog("json", "url:"+strURL+"\n"
                             + "length:"+strJSON.length()+",json:"+strJSON+"\n"+e.toString());
                 }
             }else{
-                Tools.Write_DebugLog("json", "url:"+strURL+"\n json:"+strJSON);
+                S_Debug.Write_DebugLog("json", "url:"+strURL+"\n json:"+strJSON);
             }
         }else{
             System.out.println("read error, ID="+this.Function_Call+","+this.Session_ID+"&id="+this.Node_ID);
@@ -105,7 +106,7 @@ public class C_Map_Run {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("Save_Job_ID",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
+        S_Debug.Write_DebugLog("Save_Job_ID",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
     }
     
     
@@ -126,7 +127,7 @@ public class C_Map_Run {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("Save_Command",this.Function_Call+","+this.Session_ID+","+this.Node_ID+":"+AI_Var2.machine_id+"="+strContent);
+        S_Debug.Write_DebugLog("Save_Command",this.Function_Call+","+this.Session_ID+","+this.Node_ID+":"+AI_Var2.machine_id+"="+strContent);
     }
     
     
@@ -151,11 +152,11 @@ public class C_Map_Run {
                     +"&run_key="+URLEncoder.encode(this.Run_Key,"utf-8");
         } catch (UnsupportedEncodingException ex) {
             //Logger.getLogger(C_Job.class.getName()).log(Level.SEVERE, null, ex);
-            Tools.Write_DebugLog("Save_Status",ex.toString());
+            S_Debug.Write_DebugLog("Save_Status",ex.toString());
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("Save_Status",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
+        S_Debug.Write_DebugLog("Save_Status",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
     }
     
     
@@ -176,7 +177,7 @@ public class C_Map_Run {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("Save_Machine_None",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
+        S_Debug.Write_DebugLog("Save_Machine_None",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
     }
     
      
@@ -200,7 +201,7 @@ public class C_Map_Run {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("save_map_item_function_id.php",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
+        S_Debug.Write_DebugLog("save_map_item_function_id.php",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
     }
     
     
@@ -221,7 +222,7 @@ public class C_Map_Run {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("save_time",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
+        S_Debug.Write_DebugLog("save_time",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
     }
     
     
@@ -250,7 +251,7 @@ public class C_Map_Run {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("Save_Continue",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
+        S_Debug.Write_DebugLog("Save_Continue",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent);
     }
     
       
@@ -271,7 +272,7 @@ public class C_Map_Run {
         }
 
         String strContent=S_Net.http_post(strURL,strData);
-        Tools.Write_DebugLog("Save_Try_Times",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent,false);
+        S_Debug.Write_DebugLog("Save_Try_Times",this.Function_Call+","+this.Session_ID+","+this.Node_ID+strContent,false);
     }
     
     public String GetParam(int ID,int i) {
@@ -284,7 +285,7 @@ public class C_Map_Run {
                     +"&session="+URLEncoder.encode(this.Session_ID+"","utf-8")
                     +"&function_call="+URLEncoder.encode(this.Function_Call+"","utf-8")
                     +"&index="+URLEncoder.encode(i+"","utf-8");
-            Tools.Write_DebugLog("GetParam",ID+","+this.Session_ID+","+this.Function_Call+","+i);
+            S_Debug.Write_DebugLog("GetParam",ID+","+this.Session_ID+","+this.Function_Call+","+i);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(C_Job.class.getName()).log(Level.SEVERE, null, ex);
         }

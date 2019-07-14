@@ -3,6 +3,7 @@ package com.funnyai.fs;
 import com.funnyai.Time.Old.S_Time;
 import com.funnyai.common.AI_Var2;
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.S_Debug;
 import com.funnyai.common.class_call;
 import com.funnyai.common.class_call;
 import com.funnyai.data.C_K_Str;
@@ -107,7 +108,7 @@ public class C_Command extends Thread{
             
             
         } catch (IOException ex) {
-            Tools.Write_DebugLog("",ex.toString());
+            S_Debug.Write_DebugLog("",ex.toString());
         }
         if (this.Encode==null) this.Encode="utf-8";
         if ("".equals(this.Encode)) this.Encode="utf-8";
@@ -129,7 +130,7 @@ public class C_Command extends Thread{
             }
             C_Log.Save_Machine(pRun_Session,pJob.ID,Function_Call,Try_Times);
             
-            Tools.Write_DebugLog("Try_Times","S="+pRun_Session.ID+",Job="+pJob.ID+","+Try_Times);
+            S_Debug.Write_DebugLog("Try_Times","S="+pRun_Session.ID+",Job="+pJob.ID+","+Try_Times);
             
             exitCode = process.waitFor();
             
@@ -141,11 +142,11 @@ public class C_Command extends Thread{
 
             if (exitCode>0){
                 if (Run_Error){
-                    Tools.Write_DebugLog("error"," Run_Error=true:\n"+
+                    S_Debug.Write_DebugLog("error"," Run_Error=true:\n"+
                             pRun_Session.ID+","+pJob.ID+","+Try_Times+"\n"+
                             cmdString);
                 }else{
-                    Tools.Write_DebugLog("error"," exitCode>0:" +
+                    S_Debug.Write_DebugLog("error"," exitCode>0:" +
                             pRun_Session.ID+","+pJob.ID+","+Try_Times+"\n"+
                             exitCode+"\n 有错误！"+pJob.ID+"\n"+cmdString);
                 }
@@ -153,12 +154,12 @@ public class C_Command extends Thread{
                 if (pJob!=null) pJob.Finished_Callback(pRun_Session,true,"exitCode>0:" + exitCode+"\n 有错误！id="+pJob.ID);
             }else{
                 if (pJob!=null) pJob.Finished_Callback(pRun_Session,false,"运行成功！id="+pJob.ID);
-                Tools.Write_DebugLog("","运行成功！id="+pJob.ID);
+                S_Debug.Write_DebugLog("","运行成功！id="+pJob.ID);
             }
             
         } catch (InterruptedException ex) {
             if (pJob!=null) pJob.Finished_Callback(pRun_Session,true,ex.toString());
-            Tools.Write_DebugLog("error","Error 1:" + ex.toString());
+            S_Debug.Write_DebugLog("error","Error 1:" + ex.toString());
         } finally{
                 
             S_Net.Send_Msg_To_Socket_IO("C_Command", "command finished="+cmdString,"-1","0");
@@ -183,19 +184,19 @@ public class C_Command extends Thread{
                     String line;
                     while ((line = in.readLine()) != null) {
                         if (line.startsWith("FAILED:")){
-                            Tools.Write_DebugLog("error","startsWith FAILED::\n");
+                            S_Debug.Write_DebugLog("error","startsWith FAILED::\n");
                             Run_Error=true;
                         }
                         
                         if (line.contains("FS.Run")){
                             pStr.append(line).append("\n");
-                            Tools.Write_DebugLog("FS.Run",line);
+                            S_Debug.Write_DebugLog("FS.Run",line);
                         }else if (line.contains("FS.Save.Value")){
                             pStr_Save_Value.append(line).append("\n");
-                            Tools.Write_DebugLog("FS.Java",line);
+                            S_Debug.Write_DebugLog("FS.Java",line);
                         }else if (line.contains("FS.Java")){
                             pStr_Java.append(line).append("\n");
-                            Tools.Write_DebugLog("FS.Java",line);
+                            S_Debug.Write_DebugLog("FS.Java",line);
                         }
                         
                         
@@ -211,35 +212,33 @@ public class C_Command extends Thread{
                     
                     line=pStr.toString();
                     if (!line.equals("")){
-                        Tools.Write_DebugLog("FS.Run",line);
+                        S_Debug.Write_DebugLog("FS.Run",line);
                         Line_Match(line);
                     }
                     
                     line=pStr_Java.toString();
                     if (!line.equals("")){
-                        Tools.Write_DebugLog("FS.Java",line);
+                        S_Debug.Write_DebugLog("FS.Java",line);
                         Line_Match_Java(line);
                     }
                     
                     
                     line=pStr_Save_Value.toString();
                     if (!line.equals("")){
-                        Tools.Write_DebugLog("FS.Java",line);
+                        S_Debug.Write_DebugLog("FS.Java",line);
                         Line_Match_Save_Value(line);
                     }
                     
                     
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Tools.Write_DebugLog("error","读取Job结果的错误输出流时发生异常: " + threadName
+                    S_Debug.Write_DebugLog("error","读取Job结果的错误输出流时发生异常: " + threadName
                         +e.toString());
                 } finally {
                     if (pJob!=null){
-//                        if (AI_Var2.pCommands.containsKey(pRun_Session.ID+","+pJob.ID)){
-                            AI_Var2.pCommands.remove(new C_K_Str(pRun_Session.ID+","+pJob.ID));
-                            pJob.pCommand.Stop();
-                            pJob.pCommand=null;
-//                        }
+                        AI_Var2.pCommands.remove(new C_K_Str(pRun_Session.ID+","+pJob.ID));
+                        pJob.pCommand.Stop();
+                        pJob.pCommand=null;
                     }
                 }
             }
@@ -328,7 +327,7 @@ public class C_Command extends Thread{
                 strValue=pObj.getString("value");
             }
         } catch (UnsupportedEncodingException ex) {
-            Tools.Write_DebugLog("Read_Value",strURL);
+            S_Debug.Write_DebugLog("Read_Value",strURL);
         }
             
         return  strValue;
@@ -342,10 +341,10 @@ public class C_Command extends Thread{
         String strData="XPath="+S_Strings.URL_Encode(XPath)
                 +"&Value="+S_Strings.URL_Encode(Value)+"&Class_ID="+S_Strings.URL_Encode(Class_ID)
                 +"&key="+S_MD5.getMD5("funnyai");
-        Tools.Write_DebugLog("Save_Value",strURL);
+        S_Debug.Write_DebugLog("Save_Value",strURL);
         strData=S_Net.http_post(strURL, strData);
         
-        Tools.Write_DebugLog("Save_Value",strData);
+        S_Debug.Write_DebugLog("Save_Value",strData);
     }
     
     public void Line_Match_Save_Value(String line){
@@ -364,8 +363,8 @@ public class C_Command extends Thread{
 
             C_Command.Save_Value_Admin(XPath,Class_ID,Value);
         
-            Tools.Write_DebugLog("FS.Save.Value","XPath="+XPath);
-            Tools.Write_DebugLog("FS.Save.Value",Value);
+            S_Debug.Write_DebugLog("FS.Save.Value","XPath="+XPath);
+            S_Debug.Write_DebugLog("FS.Save.Value",Value);
             
             pSB_Output.addLine("XPath="+XPath+"\n");
             pSB_Output.addLine(Value+"\n");
@@ -396,8 +395,8 @@ public class C_Command extends Thread{
             out.println("ID="+ID2);
             out.println(pVar.pObj);
             
-            Tools.Write_DebugLog("FS.Java","ID="+ID2);
-            Tools.Write_DebugLog("FS.Java",pVar.pObj.toString());
+            S_Debug.Write_DebugLog("FS.Java","ID="+ID2);
+            S_Debug.Write_DebugLog("FS.Java",pVar.pObj.toString());
             
             pSB_Output.addLine("ID="+ID2+"\n");
             pSB_Output.addLine(pVar.pObj+"\n");
@@ -420,7 +419,7 @@ public class C_Command extends Thread{
             if (strSplit.length>0) ID2=Integer.valueOf(strSplit[0]);
 
             C_Run_Session pRun_Session2 = Tools.Get_New_Session(ID2,10);
-            Tools.Write_DebugLog("FS.Run","Session.ID="+pRun_Session2.ID);
+            S_Debug.Write_DebugLog("FS.Run","Session.ID="+pRun_Session2.ID);
 
             if (strSplit.length>1) pRun_Session2.Param1=strSplit[1];
             if (strSplit.length>2) pRun_Session2.Param2=strSplit[2];
@@ -447,7 +446,7 @@ public class C_Command extends Thread{
             if (strSplit.length>0) ID2=Integer.valueOf(strSplit[0]);
 
             C_Run_Session pRun_Session2 = Tools.Get_New_Session(ID2,10);
-            Tools.Write_DebugLog("FS.Run.Program","Session.ID="+pRun_Session2.ID);
+            S_Debug.Write_DebugLog("FS.Run.Program","Session.ID="+pRun_Session2.ID);
 
 
             List<String> pListParam = new ArrayList<>();
@@ -460,7 +459,7 @@ public class C_Command extends Thread{
 
             C_Session_AI pSession = new C_Session_AI();
             String strContent=pJob2.Run_Program(pSession,null,pRun_Session,0,ID2,null,null,pListParam);
-            Tools.Write_DebugLog("FS.Run.Program",strContent);
+            S_Debug.Write_DebugLog("FS.Run.Program",strContent);
             pSB_Output.addLine(ID2+","+pListParam.toString()+"\n");
             try {
                 Thread.sleep(1000);
@@ -492,7 +491,7 @@ public class C_Command extends Thread{
                     while ((line = in.readLine()) != null) {
                         System.out.println("****************************\n"+line);
                         if (line.contains("FAILED:")){
-                            Tools.Write_DebugLog("error"," startsWith FAILED::\n");
+                            S_Debug.Write_DebugLog("error"," startsWith FAILED::\n");
                             Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
@@ -510,17 +509,17 @@ public class C_Command extends Thread{
                         }
                         
                         if (line.contains("Starting Job = job_")){
-                            Tools.Write_DebugLog("test",line);
+                            S_Debug.Write_DebugLog("test",line);
                             Pattern p = Pattern.compile("Starting Job = (job_.*?), Tracking URL =");
                             Matcher m = p.matcher(line);
                             while (m.find()){
-                                Tools.Write_DebugLog("test","matched");
+                                S_Debug.Write_DebugLog("test","matched");
                                 if (pJob.pRun!=null){
                                     pJob.pRun.Job_ID = m.group(1);
-                                    Tools.Write_DebugLog("test","job_id"+pJob.pRun.Job_ID);
+                                    S_Debug.Write_DebugLog("test","job_id"+pJob.pRun.Job_ID);
                                     pJob.pRun.Save_Job_ID(pJob.pRun.Job_ID,"");
                                 }else{
-                                    Tools.Write_DebugLog("test","pJob.pMap_Run=null");
+                                    S_Debug.Write_DebugLog("test","pJob.pMap_Run=null");
                                 }
                             }
                         }
@@ -574,7 +573,7 @@ public class C_Command extends Thread{
 //                    C_Log.Save_Output(pRun_Session.ID,pJob.ID,Function_Call,Try_Times,false,"",pSB_Output.toString());
 //                    C_Log.Save_Output(pRun_Session.ID, pJob.ID,Function_Call,Try_Times,true,"",pSB_Error.toString());
                 } catch (IOException e) {
-                    Tools.Write_DebugLog("error","读取Job结果的错误输出流时发生异常: " + threadName 
+                    S_Debug.Write_DebugLog("error","读取Job结果的错误输出流时发生异常: " + threadName 
                             +e.toString());
                 } finally {
                     if (pJob!=null){
