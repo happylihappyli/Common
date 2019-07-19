@@ -1,7 +1,7 @@
 /*
  * 日志类
  */
-package com.funnyai.fs;
+package com.funnyai.common;
 
 import com.funnyai.common.AI_Var2;
 import com.funnyai.common.S_Debug;
@@ -65,7 +65,7 @@ public class C_Log {
     }
     
     public static void Save_ExitCode(
-            C_Run_Session pRun_Session,
+            C_Run_Session_Min pRun_Session,
             int Item_ID,int Function_Call,
             int Try_Times,int exitCode)
     {
@@ -112,7 +112,7 @@ public class C_Log {
      * @param cpu 
      */
     public static void Save_CPU(
-            C_Run_Session pRun_Session,
+            C_Run_Session_Min pRun_Session,
             int Item_ID,int Function_Call,int Try_Times,
             int cpu)
     {
@@ -125,7 +125,7 @@ public class C_Log {
     }
     
     public static void Save_Machine(
-            C_Run_Session pRun_Session,
+            C_Run_Session_Min pRun_Session,
             int Item_ID,int Function_Call,int Try_Times)
     {
         String strURL=AI_Var2.Site

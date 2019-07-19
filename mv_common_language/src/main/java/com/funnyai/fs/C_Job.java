@@ -425,7 +425,7 @@ public class C_Job extends C_Map_Item{
 "<output id=\"1\"></output>\n" +
 "</item>\n";
             }
-            C_Run_Session pRun_Session2=Tools.Get_New_Session(Run_ID,0);
+            C_Run_Session pRun_Session2=(C_Run_Session) C_Run_Session.Get_New_Session(Run_ID,0);
             pRun_Session2.Param1="";//strParam;
             pRun_Session2.Start_ID=Run_ID;
             pRun_Session2.Save_To_DB(S_Time.now_YMD_Hms());
@@ -457,7 +457,7 @@ public class C_Job extends C_Map_Item{
             pRun.Save_Status("running",Start_From);
             pRun.Save_Try_Times();
             S_Debug.Write_DebugLog("shell_command",pRun_Session.ID+","+ID+","+strFile);
-            strContent=this.Run_Shell_Command(pRun_Session,false,strFile,"");
+            strContent=this.Run_Shell_Command(true,pRun_Session,strFile,"");
         }
         S_Debug.Write_DebugLog("",strContent);
         
@@ -468,42 +468,43 @@ public class C_Job extends C_Map_Item{
     
     /**
      * 
+     * @param bOut 是否调用外部执行器
      * @param pRun_Session
-     * @param bSendDingDing
      * @param strContent
      * @param Encode
      * @return 
      */
     public String Run_Shell_Command(
-            C_Run_Session pRun_Session,boolean bSendDingDing,
+            boolean bOut,
+            C_Run_Session pRun_Session,
             String strContent,String Encode)
     {
+//        if (bOut){
+//            return "";
+//        }else{
         
-        C_Command pCommand2= new C_Command(pRun_Session,this.ID);
-        pCommand2.pJob=this;
-        this.pCommand=pCommand2;
-        pCommand2.bSendDingDing=bSendDingDing;
-        pCommand2.strCommand=strContent;
-        pCommand2.Param=pRun_Session.Param1;
-        pCommand2.pRun_Session=pRun_Session;
-        
-        
-        pCommand.pSB_Output.Save_FileName();
-        
+            C_Command pCommand2= new C_Command(pRun_Session,this.ID);
+            pCommand2.pJob=this;
+            this.pCommand=pCommand2;
+            pCommand2.strCommand=strContent;
+            pCommand2.Param=pRun_Session.Param1;
+            pCommand2.pRun_Session=pRun_Session;
+            pCommand.pSB_Output.Save_FileName();
 
-        S_Debug.Write_DebugLog("","pJob<>null",false);
+            S_Debug.Write_DebugLog("","pJob<>null",false);
 
-        pCommand2.Encode=Encode;//gb2312
+            pCommand2.Encode=Encode;//gb2312
 
-        if (pCommand2.pJob.ID>0){
-            AI_Var2.pCommands.put(pRun_Session.ID+","+ pCommand2.pJob.ID,pCommand2);
-        }
-        pCommand2.start();
-        
-        strContent ="session:"+pRun_Session.ID+ ",id:" + pCommand2.pJob.ID+ ",command:" + strContent;
+            if (pCommand2.pJob.ID>0){
+                AI_Var2.pCommands.put(pRun_Session.ID+","+ pCommand2.pJob.ID,pCommand2);
+            }
+            pCommand2.start();
 
-        System.out.println(strContent);
-        return strContent;
+            strContent ="session:"+pRun_Session.ID+ ",id:" + pCommand2.pJob.ID+ ",command:" + strContent;
+
+            System.out.println(strContent);
+            return strContent;
+//        }
     }
     
     

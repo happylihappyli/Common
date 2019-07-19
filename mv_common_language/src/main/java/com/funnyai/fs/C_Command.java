@@ -3,13 +3,13 @@ package com.funnyai.fs;
 import com.funnyai.Time.Old.S_Time;
 import com.funnyai.common.AI_Var2;
 import com.funnyai.common.AI_Var2;
+import com.funnyai.common.C_Log;
 import com.funnyai.common.S_Debug;
 import com.funnyai.common.class_call;
 import com.funnyai.common.class_call;
 import com.funnyai.data.C_K_Str;
 import com.funnyai.data.C_Var_Java;
 import com.funnyai.fs.C_Job;
-import com.funnyai.fs.C_Log;
 import com.funnyai.fs.C_Run_Session;
 import com.funnyai.fs.Tools;
 import com.funnyai.net.Old.S_Net;
@@ -34,7 +34,7 @@ public class C_Command extends Thread{
     public int CPU_Time=0;
     public int ID=0;//job id
     public boolean Run_Error=false;//运行时错误，就会自动中断
-    public boolean bSendDingDing=false;//是否发送到钉钉。
+    //public boolean bSendDingDing=false;//是否发送到钉钉。
     public C_Run_Session pRun_Session;
     C_Job pJob;
     
@@ -89,7 +89,9 @@ public class C_Command extends Thread{
             pSB_Output.clear();
             pSB_Error.clear();
         } catch (InterruptedException ex) {
-            Logger.getLogger(C_Command.class.getName()).log(Level.SEVERE, null, ex);
+            S_Debug.Write_DebugLog("error", ex.toString());
+          
+            //Logger.getLogger(C_Command.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -162,9 +164,9 @@ public class C_Command extends Thread{
             S_Debug.Write_DebugLog("error","Error 1:" + ex.toString());
         } finally{
                 
-            S_Net.Send_Msg_To_Socket_IO("C_Command", "command finished="+cmdString,"-1","0");
-            S_Net.Send_Msg_To_Socket_IO("C_Command.Output",this.Output(),"-1","0");
-            S_Net.Send_Msg_To_Socket_IO("C_Command.Error",this.Error(),"-1","0");
+            S_Net.Send_Msg_To_Socket_IO("sys_event","C_Command", "command finished="+cmdString,"-1","0");
+            S_Net.Send_Msg_To_Socket_IO("sys_event","C_Command.Output",this.Output(),"-1","0");
+            S_Net.Send_Msg_To_Socket_IO("sys_event","C_Command.Error",this.Error(),"-1","0");
         }
     }
 
@@ -418,7 +420,7 @@ public class C_Command extends Thread{
             String[] strSplit=line.split(":");
             if (strSplit.length>0) ID2=Integer.valueOf(strSplit[0]);
 
-            C_Run_Session pRun_Session2 = Tools.Get_New_Session(ID2,10);
+            C_Run_Session pRun_Session2 = C_Run_Session.Get_New_Session(ID2,10);
             S_Debug.Write_DebugLog("FS.Run","Session.ID="+pRun_Session2.ID);
 
             if (strSplit.length>1) pRun_Session2.Param1=strSplit[1];
@@ -445,7 +447,7 @@ public class C_Command extends Thread{
             String[] strSplit=line.split(":");
             if (strSplit.length>0) ID2=Integer.valueOf(strSplit[0]);
 
-            C_Run_Session pRun_Session2 = Tools.Get_New_Session(ID2,10);
+            C_Run_Session pRun_Session2 = C_Run_Session.Get_New_Session(ID2,10);
             S_Debug.Write_DebugLog("FS.Run.Program","Session.ID="+pRun_Session2.ID);
 
 

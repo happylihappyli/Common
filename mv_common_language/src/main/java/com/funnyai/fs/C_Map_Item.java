@@ -677,7 +677,7 @@ public class C_Map_Item {
             strCommand=strFile_Node+" 1";
             System.out.println(strCommand);
             C_Job pJob=new C_Job(ID,pRun_Session,0);
-            strReturn=pJob.Run_Shell_Command(pRun_Session,true,strCommand,"utf-8");
+            strReturn=pJob.Run_Shell_Command(true,pRun_Session,strCommand,"utf-8");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -757,40 +757,40 @@ public class C_Map_Item {
 //    }
     
     
-    
-    
-    /**
-     * 运行Python
-     * @param pRun_Session
-     * @param ID
-     * @param strParam
-     * @return 
-     */
-    public static String Run_Python(
-            C_Run_Session pRun_Session,
-            int ID,
-            String strParam) {
-
-        //"+AI_Var2.Path_Root+"lib/common_newjava.jar:
-        String strCommand="source ./shell/lib/library.sh\n" +
-"project=\"fs\"\n" +
-"cd "+AI_Var2.Path_Root +"\n" +
-"echo $common\n" +
-"python "+ID+".py $1 $2 $3";
-        String strReturn = "";
-        try {
-            String strFile_Node=AI_Var2.Path_Shell+"run_python_"+ID+".sh";
-            Tools.File_Save_Content(1,strFile_Node,strCommand);
-            strCommand=strFile_Node+" "+strParam;
-            System.out.println(strCommand);
-            C_Job pJob=new C_Job(ID,pRun_Session,0);
-            strReturn=pJob.Run_Shell_Command(pRun_Session,true,strCommand,"utf-8");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return strReturn;
-    }
+//    
+//    
+//    /**
+//     * 运行Python
+//     * @param pRun_Session
+//     * @param ID
+//     * @param strParam
+//     * @return 
+//     */
+//    public static String Run_Python(
+//            C_Run_Session pRun_Session,
+//            int ID,
+//            String strParam) {
+//
+//        //"+AI_Var2.Path_Root+"lib/common_newjava.jar:
+//        String strCommand="source ./shell/lib/library.sh\n" +
+//"project=\"fs\"\n" +
+//"cd "+AI_Var2.Path_Root +"\n" +
+//"echo $common\n" +
+//"python "+ID+".py $1 $2 $3";
+//        String strReturn = "";
+//        try {
+//            String strFile_Node=AI_Var2.Path_Shell+"run_python_"+ID+".sh";
+//            Tools.File_Save_Content(1,strFile_Node,strCommand);
+//            strCommand=strFile_Node+" "+strParam;
+//            System.out.println(strCommand);
+//            C_Job pJob=new C_Job(ID,pRun_Session,0);
+//            strReturn=pJob.Run_Shell_Command(true,pRun_Session,strCommand,"utf-8");
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        return strReturn;
+//    }
 
 
 
@@ -815,7 +815,7 @@ public class C_Map_Item {
             //strCommand=strFile_Node+" "+strParam;
             System.out.println(strCommand);
             C_Job pJob=new C_Job(ID,pRun_Session,0);
-            strReturn=pJob.Run_Shell_Command(pRun_Session,true,strFile_Node,"utf-8");
+            strReturn=pJob.Run_Shell_Command(true,pRun_Session,strFile_Node,"utf-8");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -849,55 +849,55 @@ public class C_Map_Item {
 //    }
     
     
-    public static String Run_Shell(
-            C_Run_Session pRun_Session,
-            int ID,
-            String strParam) {
-
-        //. /root/happyli/shell/lib/library.sh
-        String strCommand="source ./shell/lib/library.sh\n" +
-"project=\"fs\"\n" +
-"cd "+AI_Var2.Path_Root +"\n" +
-"sh ./s"+ID+".sh $1 $2 $3";
-        String strReturn = "";
-        try {
-            String strFile_Node=AI_Var2.Path_Shell+"run_shell_"+ID+".sh";
-            Tools.File_Save_Content(1,strFile_Node,strCommand);
-            strCommand=strFile_Node+" "+strParam;
-            System.out.println(strCommand);
-            C_Job pJob=new C_Job(ID,pRun_Session,0);
-            strReturn=pJob.Run_Shell_Command(pRun_Session,true,strCommand,"utf-8");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return strReturn;
-    }
+//    public static String Run_Shell(
+//            C_Run_Session pRun_Session,
+//            int ID,
+//            String strParam) {
+//
+//        //. /root/happyli/shell/lib/library.sh
+//        String strCommand="source ./shell/lib/library.sh\n" +
+//"project=\"fs\"\n" +
+//"cd "+AI_Var2.Path_Root +"\n" +
+//"sh ./s"+ID+".sh $1 $2 $3";
+//        String strReturn = "";
+//        try {
+//            String strFile_Node=AI_Var2.Path_Shell+"run_shell_"+ID+".sh";
+//            Tools.File_Save_Content(1,strFile_Node,strCommand);
+//            strCommand=strFile_Node+" "+strParam;
+//            System.out.println(strCommand);
+//            C_Job pJob=new C_Job(ID,pRun_Session,0);
+//            strReturn=pJob.Run_Shell_Command(pRun_Session,true,strCommand,"utf-8");
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        return strReturn;
+//    }
     
-    public static String Run_Scala(
-            C_Run_Session pRun_Session,
-            int ID,
-            String strParam) {
-
-        //"+AI_Var2.Path_Root+"lib/common_newjava.jar:
-        String strCommand="source ./shell/lib/library.sh\n" +
-"project=\"fs\"\n" +
-"cd "+AI_Var2.Path_Root +"\n" +
-"./scala s"+ID+" $1 $2 $3";
-        String strReturn = "";
-        try {
-            String strFile_Node=AI_Var2.Path_Shell+"run_scala_"+ID+".sh";
-            Tools.File_Save_Content(1,strFile_Node,strCommand);
-            strCommand=strFile_Node+" "+strParam;
-            System.out.println(strCommand);
-            C_Job pJob=new C_Job(ID,pRun_Session,0);
-            strReturn=pJob.Run_Shell_Command(pRun_Session,true,strCommand,"utf-8");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return strReturn;
-    }
+//    public static String Run_Scala(
+//            C_Run_Session pRun_Session,
+//            int ID,
+//            String strParam) {
+//
+//        //"+AI_Var2.Path_Root+"lib/common_newjava.jar:
+//        String strCommand="source ./shell/lib/library.sh\n" +
+//"project=\"fs\"\n" +
+//"cd "+AI_Var2.Path_Root +"\n" +
+//"./scala s"+ID+" $1 $2 $3";
+//        String strReturn = "";
+//        try {
+//            String strFile_Node=AI_Var2.Path_Shell+"run_scala_"+ID+".sh";
+//            Tools.File_Save_Content(1,strFile_Node,strCommand);
+//            strCommand=strFile_Node+" "+strParam;
+//            System.out.println(strCommand);
+//            C_Job pJob=new C_Job(ID,pRun_Session,0);
+//            strReturn=pJob.Run_Shell_Command(pRun_Session,true,strCommand,"utf-8");
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        return strReturn;
+//    }
 
 
     

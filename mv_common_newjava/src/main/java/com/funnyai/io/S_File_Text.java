@@ -111,43 +111,5 @@ public class S_File_Text {
         return strReturn;
     }
 
-    public static C_File Write_Begin(
-                String strFile,
-                boolean bAppend,
-                String strEncode)
-    {
-        try {
-            if (strFile.equals("")) {
-                return null;
-            }
-            if ("".equals(strEncode)){
-                strEncode="UTF-8";
-            }
-            C_File pFile=new C_File();
-            pFile.pFS = new FileOutputStream(new File(strFile), bAppend);
-            pFile.pSW = new OutputStreamWriter(pFile.pFS, strEncode);
-            return pFile;
-        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
-            return null;
-        }
-    }
-
-    public static void Write_Line(C_File pFile, String strLine)
-    {
-        try {
-            pFile.pSW.write(strLine + "\n");
-        } catch (Exception ex) {
-            
-        }
-    }
-
-    public static void Write_End(C_File pFile)
-    {
-        try {
-            pFile.pSW.close();
-            pFile.pFS.close();
-        } catch (Exception ex){
-            
-        }
-    }
+    
 }

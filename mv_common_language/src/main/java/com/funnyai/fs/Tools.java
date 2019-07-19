@@ -62,26 +62,7 @@ public class Tools {
         }
     }
     
-    public static C_Run_Session Get_New_Session_From_ID(int ID,int priority){
-        
-        C_Run_Session pRun_Session;
-        
-        if (AI_Var2.pRun_Sessions.containsKey(ID)){
-            pRun_Session=new C_Run_Session(ID,priority);
-            AI_Var2.pRun_Sessions.put(pRun_Session.ID,pRun_Session);
-        }else{
-            pRun_Session=(C_Run_Session) AI_Var2.pRun_Sessions.get(ID);
-        }
-        return pRun_Session;
-    }
     
-    public static C_Run_Session Get_New_Session(int ID,int priority){
-        C_Run_Session pRun_Session;
-        pRun_Session=new C_Run_Session(0,priority);
-        pRun_Session.Start_ID=ID;
-        AI_Var2.pRun_Sessions.put(pRun_Session.ID,pRun_Session);
-        return pRun_Session;
-    }
     
 
     /**

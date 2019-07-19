@@ -66,16 +66,6 @@ public class S_File {
             ex.printStackTrace();
             return null;
         } finally{
-//            try {
-//                if (pFile.pFS!=null) pFile.pFS.close();
-//            } catch (IOException ex) {
-//                Logger.getLogger(S_File.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            try {
-//                if (pFile.pSW!=null) pFile.pSW.close();
-//            } catch (IOException ex) {
-//                Logger.getLogger(S_File.class.getName()).log(Level.SEVERE, null, ex);
-//            }
         }
     }
 
@@ -86,11 +76,6 @@ public class S_File {
         } catch (Exception ex) {
             
         } finally{
-//            try {
-//                if (pFile.pSW!=null) pFile.pSW.close();
-//            } catch (IOException ex) {
-//                Logger.getLogger(S_File.class.getName()).log(Level.SEVERE, null, ex);
-//            }
         }
     }
 
@@ -104,53 +89,6 @@ public class S_File {
 //        }
 //    }
     
-    public static C_File Read_Begin2(String strFile) {
-        return Read_Begin(strFile,"utf-8");//To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public static C_File Read_Begin(String strFile,String strEncode){
-        C_File pFile=new C_File();
-        pFile.bRead_First=false;
-        try {
-            if ("".equals(strEncode)){
-                strEncode="UTF-8";
-            }
-            pFile.pInput = new InputStreamReader(new FileInputStream(strFile),strEncode);
-            pFile.pReader = new BufferedReader(pFile.pInput);// 文件输入流为
-        } catch (UnsupportedEncodingException | FileNotFoundException ex) {
-            Logger.getLogger(S_File.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return pFile;
-    }
-    
-    private static String read_first_line(C_File pFile){
-        try {
-            pFile.bRead_First=true;
-            String strLine = pFile.pReader.readLine();
-            if (strLine!=null && strLine.length() > 1) {
-                if ((int) strLine.charAt(0) == 65279) {
-                    strLine = strLine.substring(1);
-                }
-            }
-            return strLine;
-        } catch (IOException ex) {
-            Logger.getLogger(S_File.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
-    public static String read_line(C_File pFile){
-        if (pFile.bRead_First==false){
-            return read_first_line(pFile);
-        }
-        try {
-            String strLine = pFile.pReader.readLine();
-            return strLine;
-        } catch (IOException ex) {
-            Logger.getLogger(S_File.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
     
     
     public static File[] GetFiles(String strDir, String filter) {
