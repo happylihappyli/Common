@@ -457,7 +457,7 @@ public class C_Job extends C_Map_Item{
             pRun.Save_Status("running",Start_From);
             pRun.Save_Try_Times();
             S_Debug.Write_DebugLog("shell_command",pRun_Session.ID+","+ID+","+strFile);
-            strContent=this.Run_Shell_Command(true,pRun_Session,strFile,"");
+            strContent=this.Run_Shell_Command("",true,pRun_Session,strFile,"");
         }
         S_Debug.Write_DebugLog("",strContent);
         
@@ -475,6 +475,7 @@ public class C_Job extends C_Map_Item{
      * @return 
      */
     public String Run_Shell_Command(
+            String user,
             boolean bOut,
             C_Run_Session pRun_Session,
             String strContent,String Encode)
@@ -484,6 +485,7 @@ public class C_Job extends C_Map_Item{
 //        }else{
         
             C_Command pCommand2= new C_Command(pRun_Session,this.ID);
+            pCommand2.user=user;
             pCommand2.pJob=this;
             this.pCommand=pCommand2;
             pCommand2.strCommand=strContent;

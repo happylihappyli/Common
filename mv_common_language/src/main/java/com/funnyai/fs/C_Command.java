@@ -2,16 +2,11 @@ package com.funnyai.fs;
 
 import com.funnyai.Time.Old.S_Time;
 import com.funnyai.common.AI_Var2;
-import com.funnyai.common.AI_Var2;
 import com.funnyai.common.C_Log;
 import com.funnyai.common.S_Debug;
 import com.funnyai.common.class_call;
-import com.funnyai.common.class_call;
 import com.funnyai.data.C_K_Str;
 import com.funnyai.data.C_Var_Java;
-import com.funnyai.fs.C_Job;
-import com.funnyai.fs.C_Run_Session;
-import com.funnyai.fs.Tools;
 import com.funnyai.net.Old.S_Net;
 import com.funnyai.netso.C_Session_AI;
 import com.funnyai.string.Old.S_MD5;
@@ -28,6 +23,7 @@ import java.util.regex.Pattern;
 import org.json.JSONObject;
 
 public class C_Command extends Thread{
+    public String user="";//Socket.IO用户名，
     public String Command_Raw="";//原始命令
     public String strCommand="";
     public String Param="";//运行shell任务的参数
@@ -164,9 +160,9 @@ public class C_Command extends Thread{
             S_Debug.Write_DebugLog("error","Error 1:" + ex.toString());
         } finally{
                 
-            S_Net.Send_Msg_To_Socket_IO("sys_event","C_Command", "command finished="+cmdString,"-1","0");
-            S_Net.Send_Msg_To_Socket_IO("sys_event","C_Command.Output",this.Output(),"-1","0");
-            S_Net.Send_Msg_To_Socket_IO("sys_event","C_Command.Error",this.Error(),"-1","0");
+            S_Net.Send_Msg_To_Socket_IO("sys_event",this.user,"C_Command", "command finished="+cmdString,"-1","0");
+            S_Net.Send_Msg_To_Socket_IO("sys_event",this.user,"C_Command.Output",this.Output(),"-1","0");
+            S_Net.Send_Msg_To_Socket_IO("sys_event",this.user,"C_Command.Error",this.Error(),"-1","0");
         }
     }
 

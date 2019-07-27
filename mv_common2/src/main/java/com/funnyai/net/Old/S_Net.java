@@ -427,7 +427,7 @@ public class S_Net {
             }
             in.close();
         } catch (IOException e) {
-            S_Net.Send_Msg_To_Socket_IO("sys_event","http_get",e.toString(),"-1","0");
+            S_Net.Send_Msg_To_Socket_IO("sys_event","","http_get",e.toString(),"-1","0");
             out.println("Encode="+strEncode);
             out.println("url="+url);
             e.printStackTrace();
@@ -444,8 +444,12 @@ public class S_Net {
     
     private static void Send_Msg(
             String event_type,
+            String To,
             String From,String strMsg,
             String from_user_id,String msg_id){
+        if ("".equals(To)){
+            To="*";
+        }
         if (socket==null){
             try {
                 S_Net.socket = IO.socket(S_Net.Server_Socket);
@@ -469,7 +473,7 @@ public class S_Net {
         }
         JSONObject obj = new JSONObject();
         obj.put("from", From);//"server");
-        obj.put("to", "*");
+        obj.put("to", To);
         String strMsg2=StringEscapeUtils.escapeHtml(strMsg);
         obj.put("message", strMsg2);
         obj.put("from_user_id",from_user_id);
@@ -480,6 +484,7 @@ public class S_Net {
     //"sys_event"
     public static void Send_Msg_To_Socket_IO(
             String event_type,
+            String To,
             String From,String strMsg,
             String from_user_id,String msg_id){
         if (socket==null){
@@ -504,14 +509,14 @@ public class S_Net {
             }
         }
         if (socket.connected()){
-            Send_Msg(event_type,From,strMsg,from_user_id,msg_id);
+            Send_Msg(event_type,To,From,strMsg,from_user_id,msg_id);
         }else{
             socket.connect();
             try {
                 Thread.sleep(6*1000);
             } catch (InterruptedException ex) {
             }
-            Send_Msg(event_type,From,strMsg,from_user_id,msg_id);
+            Send_Msg(event_type,To,From,strMsg,from_user_id,msg_id);
         }
     }
     
