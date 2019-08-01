@@ -23,11 +23,13 @@ import java.util.logging.Logger;
  */
 public class S_file_sub {
     
-    public static C_File Read_Begin_UTF8(String strFile) {
-        return S_file_sub.Read_Begin(strFile,"utf-8");//To change body of generated methods, choose Tools | Templates.
+    public final static S_file_sub main = new S_file_sub();
+    
+    public C_File Read_Begin(String strFile) {
+        return Read_Begin(strFile,"utf-8");//To change body of generated methods, choose Tools | Templates.
     }
     
-    public static C_File Read_Begin(String strFile,String strEncode){
+    public C_File Read_Begin(String strFile,String strEncode){
         C_File pFile=new C_File();
         pFile.bRead_First=false;
         try {
@@ -42,7 +44,7 @@ public class S_file_sub {
         return pFile;
     }
     
-    private static String read_first_line(C_File pFile){
+    private String read_first_line(C_File pFile){
         try {
             pFile.bRead_First=true;
             String strLine = pFile.pReader.readLine();
@@ -58,7 +60,7 @@ public class S_file_sub {
         return null;
     }
     
-    public static String read_line(C_File pFile){
+    public String read_line(C_File pFile){
         if (pFile.bRead_First==false){
             return read_first_line(pFile);
         }
@@ -72,7 +74,7 @@ public class S_file_sub {
     }
     
     
-    public static C_File Write_Begin(
+    public C_File Write_Begin(
                 String strFile,
                 boolean bAppend,
                 String strEncode)
@@ -93,7 +95,7 @@ public class S_file_sub {
         }
     }
 
-    public static void Write_Line(C_File pFile, String strLine)
+    public void Write_Line(C_File pFile, String strLine)
     {
         try {
             pFile.pSW.write(strLine + "\n");
@@ -102,7 +104,7 @@ public class S_file_sub {
         }
     }
 
-    public static void Write_End(C_File pFile)
+    public void Write_End(C_File pFile)
     {
         try {
             pFile.pSW.close();

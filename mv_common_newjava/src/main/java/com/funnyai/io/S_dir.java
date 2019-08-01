@@ -90,12 +90,12 @@ public class S_dir {
         File[] strFile;
         strFile = S_file.GetFiles(strPath, ".jar");
 
-        C_File pFile=S_file_sub.Write_Begin(strPath + "/bat.txt", true,"");
+        C_File pFile=S_file_sub.main.Write_Begin(strPath + "/bat.txt", true,"");
         for (int i = 0; i < strFile.length; i++) {
-            S_file_sub.Write_Line(pFile,
+            S_file_sub.main.Write_Line(pFile,
                     ";./../lib/" + strFile[i].getName());
         }
         
-        S_file_sub.Write_End(pFile);
+        S_file_sub.main.Write_End(pFile);
     }
 }

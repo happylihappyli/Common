@@ -35,23 +35,23 @@ public class S_file {
         String strEncode="UTF-8";
         
         out.println(strFile);
-        C_File pFile=S_file_sub.Write_Begin(strFile2, false, "utf-8");
+        C_File pFile=S_file_sub.main.Write_Begin(strFile2, false, "utf-8");
         boolean bFileExist = S_file.Exists(strFile);
         if (bFileExist == false) {
             return ;
         }
         int Repeat_Max=Integer.parseInt(strRepeat_Max);
         for (int i=0;i<Repeat_Max;i++){
-            C_File pFile2 = S_file_sub.Read_Begin(strFile, strEncode);
+            C_File pFile2 = S_file_sub.main.Read_Begin(strFile, strEncode);
             
-            String strLine = S_file_sub.read_line(pFile2);
+            String strLine = S_file_sub.main.read_line(pFile2);
             while (strLine != null) {
-                S_file_sub.Write_Line(pFile, strLine);
-                strLine =S_file_sub.read_line(pFile2);
+                S_file_sub.main.Write_Line(pFile, strLine);
+                strLine =S_file_sub.main.read_line(pFile2);
             }
             pFile2.Close();
         }
-        S_file_sub.Write_End(pFile);
+        S_file_sub.main.Write_End(pFile);
     }
     
     
@@ -69,14 +69,14 @@ public class S_file {
             return "文件不存在";
         }
 
-        C_File pFile1=S_file_sub.Read_Begin(strFile1, strEncode);
+        C_File pFile1=S_file_sub.main.Read_Begin(strFile1, strEncode);
 
         int Index =Integer.parseInt(Col_Index);
-        String strLine = S_file_sub.read_line(pFile1);
+        String strLine = S_file_sub.main.read_line(pFile1);
         while (strLine != null) {
             String[] strSplit=strLine.split(strSep);
             strOutput+=strSplit[Index]+",";
-            strLine = S_file_sub.read_line(pFile1);
+            strLine = S_file_sub.main.read_line(pFile1);
         }
         pFile1.Close();
 
@@ -99,35 +99,41 @@ public class S_file {
         String strEncode="UTF-8";
         
         out.println(strFile1);
-        C_File pFile_Output=S_file_sub.Write_Begin(strFile_Out, false, "utf-8");
+        C_File pFile_Output=S_file_sub.main.Write_Begin(strFile_Out, false, "utf-8");
         boolean bFileExist = S_file.Exists(strFile1);
         if (bFileExist == false) {
             return ;
         }
 
-        C_File pFile1=S_file_sub.Read_Begin(strFile1, strEncode);
+        C_File pFile1=S_file_sub.main.Read_Begin(strFile1, strEncode);
 
-        String strLine = S_file_sub.read_line(pFile1);
+        String strLine = S_file_sub.main.read_line(pFile1);
         while (strLine != null) {
-            S_file_sub.Write_Line(pFile_Output, strLine);
-            strLine = S_file_sub.read_line(pFile1);
+            S_file_sub.main.Write_Line(pFile_Output, strLine);
+            strLine = S_file_sub.main.read_line(pFile1);
         }
         pFile1.Close();
 
 
-        pFile1=S_file_sub.Read_Begin(strFile2, strEncode);
+        pFile1=S_file_sub.main.Read_Begin(strFile2, strEncode);
 
-        strLine = S_file_sub.read_line(pFile1);
+        strLine = S_file_sub.main.read_line(pFile1);
         while (strLine != null) {
-            S_file_sub.Write_Line(pFile_Output, strLine);
-            strLine = S_file_sub.read_line(pFile1);
+            S_file_sub.main.Write_Line(pFile_Output, strLine);
+            strLine = S_file_sub.main.read_line(pFile1);
         }
         pFile1.Close();
 
-        S_file_sub.Write_End(pFile_Output);
+        S_file_sub.main.Write_End(pFile_Output);
             
     }
     
+    /**
+     *
+     * @param a
+     * @return
+     * @deprecated  use S_file_sub.read_begin
+     */
     @Deprecated
     public static BufferedReader read_begin(Object... a){
         InputStreamReader pFS = null;
@@ -142,7 +148,12 @@ public class S_file {
         return pSR;
     }
     
-    
+    /**
+     *
+     * @param a
+     * @return
+     * @deprecated use S_file_sub.read_line
+     */
     @Deprecated
     public static String read_first_line(Object... a){
         try {
@@ -164,6 +175,12 @@ public class S_file {
         return null;
     }
     
+    /**
+     *
+     * @param a
+     * @return
+     * @deprecated use S_file_sub.read_line
+     */
     @Deprecated
     public static String read_line(Object... a){
         try {
