@@ -11,16 +11,11 @@ import org.apache.commons.codec.binary.Base64;
 
 public class S_file {
 
-    public static boolean Exists(String strFile) {
+    public final static S_file_sub main = new S_file_sub();
+    
+    
 
-        return (new File(strFile)).exists();
-    }
-
-    public static void Delete(String strFile) {
-        if (Exists(strFile)) {
-            (new File(strFile)).delete();
-        }
-    }
+    
 
     /**
      * 文件重复
@@ -35,23 +30,23 @@ public class S_file {
         String strEncode="UTF-8";
         
         out.println(strFile);
-        C_File pFile=S_file_sub.main.Write_Begin(strFile2, false, "utf-8");
-        boolean bFileExist = S_file.Exists(strFile);
+        C_File pFile=S_file.main.Write_Begin(strFile2, false, "utf-8");
+        boolean bFileExist = S_file.main.Exists(strFile);
         if (bFileExist == false) {
             return ;
         }
         int Repeat_Max=Integer.parseInt(strRepeat_Max);
         for (int i=0;i<Repeat_Max;i++){
-            C_File pFile2 = S_file_sub.main.Read_Begin(strFile, strEncode);
+            C_File pFile2 = S_file.main.Read_Begin(strFile, strEncode);
             
-            String strLine = S_file_sub.main.read_line(pFile2);
+            String strLine = S_file.main.read_line(pFile2);
             while (strLine != null) {
-                S_file_sub.main.Write_Line(pFile, strLine);
-                strLine =S_file_sub.main.read_line(pFile2);
+                S_file.main.Write_Line(pFile, strLine);
+                strLine =S_file.main.read_line(pFile2);
             }
             pFile2.Close();
         }
-        S_file_sub.main.Write_End(pFile);
+        S_file.main.Write_End(pFile);
     }
     
     
@@ -64,19 +59,19 @@ public class S_file {
         String strEncode="UTF-8";
         
         out.println(strFile1);
-        boolean bFileExist = S_file.Exists(strFile1);
+        boolean bFileExist = S_file.main.Exists(strFile1);
         if (bFileExist == false) {
             return "文件不存在";
         }
 
-        C_File pFile1=S_file_sub.main.Read_Begin(strFile1, strEncode);
+        C_File pFile1=S_file.main.Read_Begin(strFile1, strEncode);
 
         int Index =Integer.parseInt(Col_Index);
-        String strLine = S_file_sub.main.read_line(pFile1);
+        String strLine = S_file.main.read_line(pFile1);
         while (strLine != null) {
             String[] strSplit=strLine.split(strSep);
             strOutput+=strSplit[Index]+",";
-            strLine = S_file_sub.main.read_line(pFile1);
+            strLine = S_file.main.read_line(pFile1);
         }
         pFile1.Close();
 
@@ -99,32 +94,32 @@ public class S_file {
         String strEncode="UTF-8";
         
         out.println(strFile1);
-        C_File pFile_Output=S_file_sub.main.Write_Begin(strFile_Out, false, "utf-8");
-        boolean bFileExist = S_file.Exists(strFile1);
+        C_File pFile_Output=S_file.main.Write_Begin(strFile_Out, false, "utf-8");
+        boolean bFileExist = S_file.main.Exists(strFile1);
         if (bFileExist == false) {
             return ;
         }
 
-        C_File pFile1=S_file_sub.main.Read_Begin(strFile1, strEncode);
+        C_File pFile1=S_file.main.Read_Begin(strFile1, strEncode);
 
-        String strLine = S_file_sub.main.read_line(pFile1);
+        String strLine = S_file.main.read_line(pFile1);
         while (strLine != null) {
-            S_file_sub.main.Write_Line(pFile_Output, strLine);
-            strLine = S_file_sub.main.read_line(pFile1);
+            S_file.main.Write_Line(pFile_Output, strLine);
+            strLine = S_file.main.read_line(pFile1);
         }
         pFile1.Close();
 
 
-        pFile1=S_file_sub.main.Read_Begin(strFile2, strEncode);
+        pFile1=S_file.main.Read_Begin(strFile2, strEncode);
 
-        strLine = S_file_sub.main.read_line(pFile1);
+        strLine = S_file.main.read_line(pFile1);
         while (strLine != null) {
-            S_file_sub.main.Write_Line(pFile_Output, strLine);
-            strLine = S_file_sub.main.read_line(pFile1);
+            S_file.main.Write_Line(pFile_Output, strLine);
+            strLine = S_file.main.read_line(pFile1);
         }
         pFile1.Close();
 
-        S_file_sub.main.Write_End(pFile_Output);
+        S_file.main.Write_End(pFile_Output);
             
     }
     
@@ -264,7 +259,7 @@ public class S_file {
         
         StringBuilder pStr=new StringBuilder();
         try {
-            boolean bFileExist = S_file.Exists(strFile);
+            boolean bFileExist = S_file.main.Exists(strFile);
             if (bFileExist == true) {
                 InputStreamReader pFS = new InputStreamReader(new FileInputStream(strFile), "UTF-8");
                 BufferedReader pSR = new BufferedReader(pFS);// 文件输入流为
@@ -327,7 +322,7 @@ public class S_file {
         //从Txt文件中读取内容
         StringBuilder pStr=new StringBuilder();
         try {
-            boolean bFileExist = S_file.Exists(strFile);
+            boolean bFileExist = S_file.main.Exists(strFile);
             if (bFileExist == true) {
                 InputStreamReader pFS = new InputStreamReader(new FileInputStream(strFile), "UTF-8");
                 BufferedReader pSR = new BufferedReader(pFS);// 文件输入流为
@@ -356,27 +351,6 @@ public class S_file {
         }
     }
     
-    public static void Copy2File(String srcFile, String strFile2) {
-        try {
-            File file = new File(srcFile);
-            FileInputStream inputStream = new FileInputStream(srcFile);
-            FileOutputStream outputStream = new FileOutputStream(strFile2);
-
-            byte[] readBytes = new byte[1024];
-            int readLength = inputStream.read(readBytes);
-            while (readLength != -1)// 读取数据到文件输出流
-            {
-                outputStream.write(readBytes, 0, readLength);
-                outputStream.flush();
-                readLength = inputStream.read(readBytes);
-            }
-            // 关闭相关对象
-            inputStream.close();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void Copy2Path(String srcFile, String destPath) {
         try {

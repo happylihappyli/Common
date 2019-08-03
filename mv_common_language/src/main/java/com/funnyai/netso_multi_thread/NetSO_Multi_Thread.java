@@ -21,6 +21,7 @@ import com.funnyai.fs.Tools;
 import com.funnyai.io.C_File;
 import com.funnyai.io.Old.S_File;
 import com.funnyai.io.S_File_Text;
+import com.funnyai.io.S_file;
 import com.funnyai.io.S_file_sub;
 import com.funnyai.net.Old.S_Net;
 import static java.lang.System.out;
@@ -184,11 +185,11 @@ public class NetSO_Multi_Thread {
         this.clear();
         out.println("file="+strFile);
         try {
-            C_File pFile=S_file_sub.main.Read_Begin(strFile);
+            C_File pFile=S_file.main.Read_Begin(strFile);
             String strLine;
             String[] strSplit;
             double dbScale;
-            strLine = S_file_sub.main.read_line(pFile);// pSR.readLine();
+            strLine = S_file.main.read_line(pFile);// pSR.readLine();
             int iCount=0;
             while (strLine!=null){
                 iCount+=1;
@@ -206,7 +207,7 @@ public class NetSO_Multi_Thread {
                         }
                     }
                 }
-                strLine = S_file_sub.main.read_line(pFile);// pSR.readLine();
+                strLine = S_file.main.read_line(pFile);// pSR.readLine();
                 if (iCount % 100000 ==0){
                     out.println(iCount);
                 }

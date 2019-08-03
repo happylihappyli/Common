@@ -23,7 +23,38 @@ import java.util.logging.Logger;
  */
 public class S_file_sub {
     
-    public final static S_file_sub main = new S_file_sub();
+    public void Delete(String strFile) {
+        if (S_file.main.Exists(strFile)) {
+            (new File(strFile)).delete();
+        }
+    }
+    
+    public void Copy2File(String srcFile, String strFile2) {
+        try {
+            File file = new File(srcFile);
+            FileInputStream inputStream = new FileInputStream(srcFile);
+            FileOutputStream outputStream = new FileOutputStream(strFile2);
+
+            byte[] readBytes = new byte[1024];
+            int readLength = inputStream.read(readBytes);
+            while (readLength != -1)// 读取数据到文件输出流
+            {
+                outputStream.write(readBytes, 0, readLength);
+                outputStream.flush();
+                readLength = inputStream.read(readBytes);
+            }
+            // 关闭相关对象
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean Exists(String strFile) {
+
+        return (new File(strFile)).exists();
+    }
     
     public C_File Read_Begin(String strFile) {
         return Read_Begin(strFile,"utf-8");//To change body of generated methods, choose Tools | Templates.

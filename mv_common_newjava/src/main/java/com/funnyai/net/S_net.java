@@ -26,7 +26,10 @@ import java.io.InputStreamReader;
 
 public class S_net {
     
-    public static String getLocalIP(){
+    
+    public static S_net main=new S_net();
+    
+    public  String getLocalIP(){
         String ip="";
         try {
             ip = InetAddress.getLocalHost().getHostAddress();
@@ -47,7 +50,7 @@ public class S_net {
         * @param directory 上传的目录
      * @return 
     */
-    public static String SFtp_Upload(String host, 
+    public  String SFtp_Upload(String host, 
             int port, String username,String password,
             String uploadFile,String directory) {
         try {
@@ -97,7 +100,7 @@ public class S_net {
      *  
      * @param fileName 文件名称 
      */  
-    public static void SFtp_Download(
+    public  void SFtp_Download(
             String ftpHost,int ftpPort, 
             String ftpUserName,  
             String ftpPassword, 
@@ -132,7 +135,7 @@ public class S_net {
     }  
 
 
-    public static String sftp_upload(String... a){
+    public  String sftp_upload(String... a){
         String strSite=a[0];
         int iPort=22;
         if (a.length>1){
@@ -155,7 +158,7 @@ public class S_net {
             strPath=a[5];
         }
         
-        String strReturn=S_net.SFtp_Upload(strSite,iPort,strUser,strPassword,strFile,strPath);
+        String strReturn=S_net.main.SFtp_Upload(strSite,iPort,strUser,strPassword,strFile,strPath);
 
         return strReturn;
     }
@@ -164,7 +167,7 @@ public class S_net {
      * @param a
      * @return 
      */
-    public static C_Var_Java sftp_upload(C_Var_Java... a){
+    public  C_Var_Java sftp_upload(C_Var_Java... a){
         String strSite=(String) a[0].pObj;
         int iPort=22;
         if (a.length>1){
@@ -187,12 +190,12 @@ public class S_net {
             strPath=(String) a[5].pObj;
         }
         
-        String strReturn=S_net.SFtp_Upload(strSite,iPort,strUser,strPassword,strFile,strPath);
+        String strReturn=S_net.main.SFtp_Upload(strSite,iPort,strUser,strPassword,strFile,strPath);
         //S_net.SFtp_Upload("www.funnyai.com",22,"root","",(String)a[0],"/root/");
         return new C_Var_Java("String",strReturn);
     }
     
-    public static String http_get(String url) {
+    public  String http_get(String url) {
        
         String strMethod="GET";
         String param="";
@@ -224,7 +227,7 @@ public class S_net {
     }
     
     
-    public static String http_post(String url,String strData) {
+    public  String http_post(String url,String strData) {
         String strEncode="utf-8";
         String reference_url="";
         String result = "";
@@ -257,7 +260,7 @@ public class S_net {
         return result;
     }
     
-    public static C_Var_Java http(C_Var_Java... a) {
+    public  C_Var_Java http(C_Var_Java... a) {
         String url="";
         String strMethod="GET";
         String param="";
@@ -315,13 +318,13 @@ public class S_net {
         return new C_Var_Java("String",result);
     }
 
-    public static void main(String[] args) {
+    public  void main(String[] args) {
         System.out.println(ip2Long("116.232.105.203"));
         System.out.println(ip2Long("218.88.145.213"));
 
     }
 
-    public static long ip2Long(String strIP) {
+    public  long ip2Long(String strIP) {
         if ("".equals(strIP)){
             return 0;
         }
@@ -339,7 +342,7 @@ public class S_net {
     }
 
     //将10进制整数形式转换成127.0.0.1形式的IP地址
-    public static String long2IP(long longIP) {
+    public  String long2IP(long longIP) {
         StringBuffer sb = new StringBuffer("");
         //直接右移24位
         sb.append(String.valueOf(longIP >>> 24));

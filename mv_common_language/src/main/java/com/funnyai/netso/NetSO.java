@@ -17,6 +17,7 @@ import com.funnyai.Math.Old.S_Math;
 import com.funnyai.common.AI_Var2;
 import com.funnyai.common.S_Debug;
 import com.funnyai.fs.Tools;
+import com.funnyai.io.S_file;
 import com.funnyai.io.S_file_sub;
 import com.funnyai.net.Old.S_Net;
 import java.util.ArrayList;
@@ -1483,12 +1484,12 @@ public class NetSO {
         System.out.println("file="+strFile);
         try {
             ArrayList<C_Topic_Key_W> pListAdd=new ArrayList<>();
-            C_File pFile=S_file_sub.main.Read_Begin(strFile);
+            C_File pFile=S_file.main.Read_Begin(strFile);
 
             String strLine;
             String[] strSplit;
             double dbScale;
-            strLine = S_file_sub.main.read_line(pFile);// pSR.readLine();
+            strLine = S_file.main.read_line(pFile);// pSR.readLine();
             while (strLine!=null){
                 strSplit = strLine.split("\\|");
                 if (strSplit.length > 2 ) {
@@ -1503,7 +1504,7 @@ public class NetSO {
                         }
                     }
                 }
-                strLine = S_file_sub.main.read_line(pFile);// pSR.readLine();
+                strLine = S_file.main.read_line(pFile);// pSR.readLine();
             }
             this.AddPoint_Bat(pListAdd);
             pFile.Close();
