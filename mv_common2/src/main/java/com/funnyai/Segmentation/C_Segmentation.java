@@ -222,7 +222,7 @@ public class C_Segmentation {
         
         out.println("Segmentation Path="+strDictionaryDir);
         
-        int Count_Pages=(int) map.get("size");
+        Double Count_Pages=(Double) map.get("size");
         
         for (int i=1;i<=Count_Pages;i++){
             String strReturn=(String) map.get("k"+i);
