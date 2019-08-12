@@ -435,7 +435,7 @@ public class S_Net {
         return result;
     }
     
-    public static String Server_Socket="http://robot3.funnyai.com:7777";
+    public static String Server_Socket="http://robot6.funnyai.com:7777";
     public static Socket socket;
     public static void set_socket_server(String strURL){
         S_Net.Server_Socket=strURL;

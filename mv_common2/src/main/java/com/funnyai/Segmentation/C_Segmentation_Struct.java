@@ -276,7 +276,7 @@ public class C_Segmentation_Struct {
         int PageSize = 1000;
         int iNext = 0;
         int Size=(int) map.get("size");
-        for(int i=0;i<=Size;i++){
+        for(int i=1;i<=Size;i++){
             try {
                 String strReturn;
                 strReturn=(String) map.get("k"+i);
