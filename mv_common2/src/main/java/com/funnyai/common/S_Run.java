@@ -18,6 +18,7 @@ public class S_Run {
     
     /**
      * 
+     * @param strUser
      * @param strFile
      * @param strMax
      * @param SQL
@@ -25,6 +26,7 @@ public class S_Run {
      * @param Output 
      */
     public static void File_SQL(
+            String strUser,
             String strFile,
             String strMax,
             String SQL,
@@ -44,7 +46,7 @@ public class S_Run {
             
             C_Command_Min pCommand=new C_Command_Min(pSession,0);
             pCommand.RunShell("java -jar "+AI_Var2.Path_Root+"funny_sql.jar \""
-                    +strFile+"\" \""+strMax+"\" \""+SQL+"\" \""+strSep+"\" \""+Output+"\"");
+                    +strFile+"\" \""+strMax+"\" \""+SQL+"\" \""+strSep+"\" \""+Output+"\" \""+strUser+"\"");
             out.println("file_sql finished");
         } catch (IOException ex) {
             S_Debug.Write_DebugLog("error_sql", ex.toString());

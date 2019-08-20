@@ -160,9 +160,9 @@ public class C_Command extends Thread{
             S_Debug.Write_DebugLog("error","Error 1:" + ex.toString());
         } finally{
                 
-            S_Net.Send_Msg_To_Socket_IO("sys_event",this.user,"C_Command", "command finished="+cmdString,"-1","0");
-            S_Net.Send_Msg_To_Socket_IO("sys_event",this.user,"C_Command.Output",this.Output(),"-1","0");
-            S_Net.Send_Msg_To_Socket_IO("sys_event",this.user,"C_Command.Error",this.Error(),"-1","0");
+            S_Net.SI_Send("sys_event","","C_Command",this.user, "command finished="+cmdString);
+            S_Net.SI_Send("sys_event","","C_Command.Output",this.user,this.Output());
+            S_Net.SI_Send("sys_event","","C_Command.Error",this.user,this.Error());
         }
     }
 

@@ -114,22 +114,28 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>com.funnyai</groupId>
+                <artifactId>funny-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <configuration>
+                    <prefix>---</prefix>
+                    <upload>E:\happyli\Jar\common_newjava\common_newjava.jar</upload>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>buildinfo</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>buildinfo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
 
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>mw-nexus-releases</id>
-            <name>MW Nexus Releases</name>
-            <url>http://repo.magicwindow.cn/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>mw-nexus-snapshots</id>
-            <name>MW Nexus Snapshots</name>
-            <url>http://repo.magicwindow.cn/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
     
 </project>

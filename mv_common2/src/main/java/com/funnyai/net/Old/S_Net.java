@@ -22,20 +22,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 
@@ -217,7 +223,7 @@ public class S_Net {
         // 将JSON进行UTF-8编码,以便传输中文
         String encoderJson = URLEncoder.encode(json,"utf-8");
         
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+        CloseableHttpClient httpClient =  HttpClientBuilder.create().build(); //HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Content-Type", APPLICATION_JSON);
         
@@ -226,6 +232,7 @@ public class S_Net {
         se.setContentEncoding(new BasicHeader("Content-Type", APPLICATION_JSON));
         httpPost.setEntity(se);
         httpClient.execute(httpPost);
+
     }
     
     public static String post_json(
@@ -427,7 +434,7 @@ public class S_Net {
             }
             in.close();
         } catch (IOException e) {
-            S_Net.Send_Msg_To_Socket_IO("sys_event","","http_get",e.toString(),"-1","0");
+            S_Net.SI_Send("sys_event","error","http_get","*",e.toString());
             out.println("Encode="+strEncode);
             out.println("url="+url);
             e.printStackTrace();
@@ -435,7 +442,7 @@ public class S_Net {
         return result;
     }
     
-    public static String Server_Socket="http://robot6.funnyai.com:7777";
+    public static String Server_Socket="http://robot6.funnyai.com:8000";
     public static Socket socket;
     public static void set_socket_server(String strURL){
         S_Net.Server_Socket=strURL;
@@ -444,9 +451,10 @@ public class S_Net {
     
     private static void Send_Msg(
             String event_type,
+            String strType,
+            String From,
             String To,
-            String From,String strMsg,
-            String from_user_id,String msg_id){
+            String strMsg){
         if ("".equals(To)){
             To="*";
         }
@@ -472,21 +480,23 @@ public class S_Net {
             }
         }
         JSONObject obj = new JSONObject();
+        obj.put("type", strType);
         obj.put("from", From);//"server");
         obj.put("to", To);
-        String strMsg2=StringEscapeUtils.escapeHtml(strMsg);
-        obj.put("message", strMsg2);
-        obj.put("from_user_id",from_user_id);
-        obj.put("msg_id",msg_id);
+        //String strMsg2=strMsg; //StringEscapeUtils.escapeHtml(strMsg);
+        obj.put("message", strMsg);
+//        obj.put("from_user_id",from_user_id);
+//        obj.put("msg_id",msg_id);
         socket.emit(event_type, obj);
     }
     
     //"sys_event"
-    public static void Send_Msg_To_Socket_IO(
+    public static void SI_Send(
             String event_type,
+            String strType,
+            String From,
             String To,
-            String From,String strMsg,
-            String from_user_id,String msg_id){
+            String strMsg){
         if (socket==null){
             try {
                 S_Net.socket = IO.socket(S_Net.Server_Socket);
@@ -509,14 +519,14 @@ public class S_Net {
             }
         }
         if (socket.connected()){
-            Send_Msg(event_type,To,From,strMsg,from_user_id,msg_id);
+            Send_Msg(event_type,strType,From,To,strMsg);
         }else{
             socket.connect();
             try {
                 Thread.sleep(6*1000);
             } catch (InterruptedException ex) {
             }
-            Send_Msg(event_type,To,From,strMsg,from_user_id,msg_id);
+            Send_Msg(event_type,strType,From,To,strMsg);
         }
     }
     
