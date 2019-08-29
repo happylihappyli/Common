@@ -26,7 +26,7 @@ public class S_File_Text {
         InputStreamReader pFS = null;
         BufferedReader pSR = null;// 文件输入流为
         try {
-            out.println(strFile);
+            //out.println(strFile);
             boolean bFileExist = S_file.main.Exists(strFile);
             if (bFileExist == true) {
                 pFS = new InputStreamReader(new FileInputStream(strFile), strEncode);
