@@ -93,8 +93,10 @@ public class S_File_Text {
             }
             strReturn += strLine;
             while (strLine != null) {
-                if (LineCount>=MaxLine){
-                    break;
+                if (MaxLine>0){
+                    if (LineCount>=MaxLine){
+                        break;
+                    }
                 }
                 strLine = pSR.readLine();
                 LineCount+=1;
