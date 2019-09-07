@@ -8,6 +8,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+import com.jcraft.jsch.SftpProgressMonitor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
@@ -74,7 +75,10 @@ public class S_net {
             sftp.cd(directory);
             File file=new File(uploadFile);
             out.println("upload...");
-            sftp.put(new FileInputStream(file), file.getName());
+            
+            SystemOutProgressMonitor progress = new SystemOutProgressMonitor();
+            sftp.put(new FileInputStream(file), file.getName(),progress);
+            
             out.println("upload finished");
             sftp.disconnect();
             return "OK";

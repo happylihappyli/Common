@@ -159,7 +159,6 @@ public class C_Command extends Thread{
             if (pJob!=null) pJob.Finished_Callback(pRun_Session,true,ex.toString());
             S_Debug.Write_DebugLog("error","Error 1:" + ex.toString());
         } finally{
-                
             S_Net.SI_Send("sys_event","","C_Command",this.user, "command finished="+cmdString);
             S_Net.SI_Send("sys_event","","C_Command.Output",this.user,this.Output());
             S_Net.SI_Send("sys_event","","C_Command.Error",this.user,this.Error());
@@ -490,19 +489,19 @@ public class C_Command extends Thread{
                         System.out.println("****************************\n"+line);
                         if (line.contains("FAILED:")){
                             S_Debug.Write_DebugLog("error"," startsWith FAILED::\n");
-                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
+                            S_Net.SI_Send("sys_event","error","error",C_Command.this.user,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         if (line.contains("Cannot allocate memory")){
-                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
+                            S_Net.SI_Send("sys_event","error","error",C_Command.this.user,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         if (line.contains("Exception in")){
-                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
+                            S_Net.SI_Send("sys_event","error","error",C_Command.this.user,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         if (line.startsWith("Error ")){
-                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
+                            S_Net.SI_Send("sys_event","error","error",C_Command.this.user,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         

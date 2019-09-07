@@ -41,7 +41,7 @@ public class Tools {
      * @param iPort
      * @param strMsg 
      */
-    public static void Send_Msg_To_DingDing(
+    public static void Send_Msg_To_DingDing_zzz(
             String strIP,int iPort,String strMsg){
         
         strMsg=strMsg.replace("\"", "");
