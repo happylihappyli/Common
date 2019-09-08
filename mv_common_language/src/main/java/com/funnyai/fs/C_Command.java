@@ -567,19 +567,14 @@ public class C_Command extends Thread{
                         }
                     }
                     //如果不到60秒
-//                    C_Log.Save_Output(pRun_Session.ID,pJob.ID,Function_Call,Try_Times,false,"",pSB_Output.toString());
-//                    C_Log.Save_Output(pRun_Session.ID, pJob.ID,Function_Call,Try_Times,true,"",pSB_Error.toString());
                 } catch (IOException e) {
                     S_Debug.Write_DebugLog("error","读取Job结果的错误输出流时发生异常: " + threadName 
                             +e.toString());
                 } finally {
                     if (pJob!=null){
-//                        C_Log.Save_Output(pRun_Session.ID, pJob.ID,Function_Call,Try_Times,true,"",pSB_Error.toString());
-//                        if (AI_Var2.pCommands.containsKey(pRun_Session.ID+","+pJob.ID)){
-                            AI_Var2.pCommands.remove(new C_K_Str(pRun_Session.ID+","+pJob.ID));
-                            pJob.pCommand.Stop();
-                            pJob.pCommand=null;
-//                        }
+                        AI_Var2.pCommands.remove(new C_K_Str(pRun_Session.ID+","+pJob.ID));
+                        pJob.pCommand.Stop();
+                        pJob.pCommand=null;
                     }
                 }
             }
