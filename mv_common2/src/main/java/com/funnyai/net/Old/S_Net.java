@@ -481,12 +481,9 @@ public class S_Net {
         }
         JSONObject obj = new JSONObject();
         obj.put("type", strType);
-        obj.put("from", From);//"server");
+        obj.put("from", From);
         obj.put("to", To);
-        //String strMsg2=strMsg; //StringEscapeUtils.escapeHtml(strMsg);
         obj.put("message", strMsg);
-//        obj.put("from_user_id",from_user_id);
-//        obj.put("msg_id",msg_id);
         socket.emit(event_type, obj);
     }
     
