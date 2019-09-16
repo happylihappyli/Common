@@ -22,6 +22,7 @@ public class S_Save {
         String strData="XPath="+S_Strings.URL_Encode(XPath)
                 +"&Value="+S_Strings.URL_Encode(Value);
         strData=S_Net.http_post(strURL,strData);
+        System.out.println(strData);
     }
     
 }
