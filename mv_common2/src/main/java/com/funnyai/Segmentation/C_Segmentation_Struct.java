@@ -275,7 +275,16 @@ public class C_Segmentation_Struct {
         String strStruct ;
         int PageSize = 1000;
         int iNext = 0;
-        int Size=(int) map.get("size");
+        Object pObj=map.get("size");
+        int Size=0;//Integer.parseInt((String)map.get("size"));
+        switch(pObj.getClass().getName()){
+            case "java.lang.Double":
+                Size=((Double)pObj).intValue();
+                break;
+            case "java.lang.String":
+                Size=Integer.parseInt((String)pObj);
+                break;
+        }
         for(int i=1;i<=Size;i++){
             try {
                 String strReturn;

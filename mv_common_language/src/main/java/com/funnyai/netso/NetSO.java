@@ -627,7 +627,8 @@ public class NetSO {
         return pLink;
     }
     
-    public ArrayList<C_Struct_Active> ITSKeys_Last(I_Robot pRobot, C_Sentence pSentence,boolean bSubStruct){
+    public ArrayList<C_Struct_Active> ITSKeys_Last(
+            I_Robot pRobot, C_Sentence pSentence,boolean bSubStruct){
         
         ArrayList<C_Token_Link> pArray = new ArrayList<>();
         C_Token_Link pLink=ITSKeys_Last_Link(pRobot,pSentence,pArray);
@@ -647,6 +648,7 @@ public class NetSO {
             }
             for (int i = 0; i < pLink.Count(); i++) {
                 pToken1 = pLink.Item(i);
+                out.println("token:"+i+":"+pToken1.Name);
                 if (!"{any}".equals(pToken1.Name)){
                     for (int j=0;j<pToken1.Count();j++){
                         String strLine2=pToken1.Item(j);

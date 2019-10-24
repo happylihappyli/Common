@@ -434,7 +434,8 @@ public class S_Net {
             }
             in.close();
         } catch (IOException e) {
-            S_Net.SI_Send("sys_event","error","http_get","*",e.toString());
+            e.printStackTrace();
+            //S_Net.SI_Send("sys_event","error","http_get","*",e.toString());
             out.println("Encode="+strEncode);
             out.println("url="+url);
             e.printStackTrace();
@@ -449,7 +450,7 @@ public class S_Net {
     }
     
     
-    private static void Send_Msg(
+    private static void Send_Msg2(
             String event_type,
             String strType,
             String From,
@@ -488,7 +489,7 @@ public class S_Net {
     }
     
     //"sys_event"
-    public static void SI_Send(
+    public static void SI_Send2(
             String event_type,
             String strType,
             String From,
@@ -516,14 +517,14 @@ public class S_Net {
             }
         }
         if (socket.connected()){
-            Send_Msg(event_type,strType,From,To,strMsg);
+            Send_Msg2(event_type,strType,From,To,strMsg);
         }else{
             socket.connect();
             try {
                 Thread.sleep(6*1000);
             } catch (InterruptedException ex) {
             }
-            Send_Msg(event_type,strType,From,To,strMsg);
+            Send_Msg2(event_type,strType,From,To,strMsg);
         }
     }
     
