@@ -19,80 +19,9 @@ import org.mapdb.DBMaker;
 
 public class C_Segmentation_Struct {
 
-//    public C_Treap_Funny Key_Index;
-//    public Treap glb_Treap_URL_Check;
-//    public static int ReserveSpace = 1024 * 2;
-//    public C_Treap_Funny pTreapWord = new C_Treap_Funny();
-//    public Treap TreapFilter =new Treap();
-    
     public String Path_Struct="";
     public Treap pTreap_Active_MultiKey=new Treap();
     public Struct_Treap pTreapKeys=new Struct_Treap();
-
-//    public void filterWord_Init() {
-//        String[] strFiles = {"Filter1.Filter"};
-//
-//        for (int i = 0; i < strFiles.length; i++) {
-//            System.out.println(C_Segmentation_Struct.class.getResource("/").toString());
-//            System.out.println("File:" + strFiles[i]);
-//            InputStream url = C_Segmentation_Struct.class.getResourceAsStream("/data/" + strFiles[i]);
-//            try {
-//                loadFilterFile(url);
-//            } catch (IOException ex) {
-//                Logger.getLogger(C_Segmentation_Struct.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//    }
-
-//    public String loadFilterFile(InputStream in) throws IOException {
-//        //把过滤单词读取到内存，这样就可以分词了,从Txt文件中读取内容。 
-//        InputStreamReader FS = new InputStreamReader(in, "UTF-8");
-//        BufferedReader SR = new BufferedReader(FS); // 文件输入流为
-//        String strLine;
-//        int Count = 0;
-//
-//        strLine = SR.readLine();
-//        if (strLine.length() > 1) {
-//            if ((int) strLine.charAt(0) == 65279) {
-//                strLine = strLine.substring(1);
-//            }
-//        }
-//
-//        while (strLine != null) {
-//            if (strLine.length() > 0) {
-//                TreapFilter.insert(new C_K_Str(strLine), strLine);
-//                Count += 1;
-//            }
-//            strLine = SR.readLine();
-//        }
-//
-//        SR.close();
-//        FS.close();
-//
-//        SR = null;
-//        FS = null;
-//        System.out.println("TreapFilterCount:" + TreapFilter.Size());
-//
-//        return "词库初始化完毕！";
-//    }
-
-//    public String FilterWord(String strContent) {
-//        if (TreapFilter == null) {
-//            TreapFilter = new Treap();
-//            filterWord_Init();
-//            System.out.println("Loading Filter Word");
-//        }
-//        String[] strSplit = strContent.split("\\ +");
-//
-//        String strReturn = "";
-//        for (int i = 0; i < strSplit.length; i++) {
-//            if (TreapFilter.find(new C_K_Str(strSplit[i])) == null) {
-//                strReturn += " " + strSplit[i];
-//            }
-//        }
-//
-//        return strReturn.trim();
-//    }
 
     public String InitDictionary(
             C_Convert pConvert,
@@ -104,36 +33,6 @@ public class C_Segmentation_Struct {
             return "词库文件 " + strFile + " 不存在";
         }
     }
-
-//    public String loadDicFile_FromContent(String strContent) {
-//        String strLeft, strLine;
-//        int Count = 0;
-//        Treap pTreap;
-//        C_Word_Convert pWord;
-//
-//        String[] strSplit = strContent.split("\\ +");
-//
-//        for (int i = 0; i < strSplit.length; i++) {
-//            strLine = strSplit[i];
-//            if (strLine.length() > 0) {
-//                strLeft = strLine.substring(0, 1);
-//                pTreap = (Treap) pTreapWord.find(new C_K_Str(strLeft));
-//                if (pTreap == null) {
-//                    pTreap = new Treap();
-//                    pTreapWord.insert(new C_K_Str(strLeft), pTreap);
-//                }
-//                pWord = new C_Word_Convert(strLine);
-//                pTreap.insert(new C_K_Str(pWord.Word), pWord);
-//                if (strLine.length() > pTreap.KeyMaxLen) {
-//                    pTreap.KeyMaxLen = strLine.length();
-//                }
-//                Count += 1;
-//            }
-//        }
-//        System.out.println("ListCount:" + pTreapWord.Size() + ",WordCount:" + Count);
-//
-//        return "词库初始化完毕！";
-//    }
 
     public String InitDictionary(C_Convert pConvert, InputStream in) throws IOException {
         
@@ -194,6 +93,7 @@ public class C_Segmentation_Struct {
         if (strLine.startsWith("'")) {
             return;
         }
+        out.println(strLine+"="+strConvert);
         if ("".equals(strLine)) {
             return;
         }
@@ -265,18 +165,21 @@ public class C_Segmentation_Struct {
         
         
         String strFile =Path_Struct+"/struct.db";
+        strFile=strFile.replace("//","/");
+        
         String strFile2 = strFile+"."+Robot_ID+"_"+strTag+".db";
         S_File.Copy2File(strFile, strFile2);
         
         DB db = DBMaker.fileDB(strFile2).checksumHeaderBypass().make();// .make();
         ConcurrentMap map = db.hashMap("map").open();
-        
+        out.println("初始化结构:"+strFile);
         pTreapKeys = new Struct_Treap();
         String strStruct ;
         int PageSize = 1000;
         int iNext = 0;
         Object pObj=map.get("size");
-        int Size=0;//Integer.parseInt((String)map.get("size"));
+        int Size=0;
+        out.println("type="+pObj.getClass().getName());
         switch(pObj.getClass().getName()){
             case "java.lang.Double":
                 Size=((Double)pObj).intValue();
@@ -284,7 +187,14 @@ public class C_Segmentation_Struct {
             case "java.lang.String":
                 Size=Integer.parseInt((String)pObj);
                 break;
+            case "java.lang.Integer":
+                Size=(Integer)pObj;
+                break;
+            case "java.lang.Long":
+                Size=((Long)pObj).intValue();
+                break;
         }
+        out.println("Struct.Page.size="+Size);
         for(int i=1;i<=Size;i++){
             try {
                 String strReturn;

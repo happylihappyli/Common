@@ -641,6 +641,16 @@ public class NetSO {
         Treap pTreapKey = new Treap();
         C_Token_Key pTokenKey;
         C_Token pToken1;
+        
+        
+        for (int kk=0;kk<pArray.size();kk++){
+            pLink = pArray.get(pArray.size()-1-kk);
+            for (int i = 0; i < pLink.Count(); i++) {
+                pToken1 = pLink.Item(i);
+                out.println("token:"+kk+":"+i+":"+pToken1.Name);
+            }
+        }
+        
         for (int kk=0;kk<pArray.size();kk++){
             pLink = pArray.get(pArray.size()-1-kk);
             if (pLink.Count()>iSize){
@@ -648,7 +658,6 @@ public class NetSO {
             }
             for (int i = 0; i < pLink.Count(); i++) {
                 pToken1 = pLink.Item(i);
-                out.println("token:"+i+":"+pToken1.Name);
                 if (!"{any}".equals(pToken1.Name)){
                     for (int j=0;j<pToken1.Count();j++){
                         String strLine2=pToken1.Item(j);

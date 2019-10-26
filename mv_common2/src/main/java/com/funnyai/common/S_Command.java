@@ -19,6 +19,12 @@ import java.util.logging.Logger;
  */
 public class S_Command {
     
+    /**
+     * 运行短小的命令，长命令用C_Command
+     * @param shStr
+     * @param MaxTime
+     * @return 
+     */
     public static String RunShell_Return(String shStr,int MaxTime) {
         try {
             StringBuilder pSB=new StringBuilder();
@@ -31,22 +37,25 @@ public class S_Command {
             process_static.waitFor();
             boolean bAdd_Line=false;
             
+            //long t0 = System.currentTimeMillis();
             long t1 = System.currentTimeMillis();
             while ((line = input.readLine()) != null){
                 long t2 = System.currentTimeMillis();
-                if(t2-t1 > MaxTime*1000){
+                if(t2-t1 > MaxTime*1000){//读取提示，等待时间不要太长
                     break;
                 }
                 if (bAdd_Line) pSB.append("\n");
                 pSB.append(line);
                 bAdd_Line=true;
+                t1 = System.currentTimeMillis();
             }
             
             return pSB.toString();
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(S_Command.class.getName()).log(Level.SEVERE, null, ex);
+            return ex.toString();
         }
-        return "";
+        //return "";
     }
     
     

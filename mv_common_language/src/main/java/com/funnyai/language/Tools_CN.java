@@ -45,7 +45,6 @@ public class Tools_CN {
             case "cn.sentence": 
                 strReturn=pSession.strSentence;
                 break;
-
             case "cn.sentence.remove":
                 strReturn=Get_Sentence_Remove(pSession,pTreap_PNode,Function_Call,strFunction,pNode_Input,pMap_Item);
                 break;
@@ -55,7 +54,7 @@ public class Tools_CN {
             case "cn.sentence.right":
                 strReturn=Get_Sentence_Right(pSession,pTreap_PNode,Function_Call,strFunction,pNode_Input,pMap_Item);
                 break;
-            case "cn.getword.child": 
+            case "cn.getword.child":
                 strReturn=Get_Word_Child(pSession,pTreap_PNode,Function_Call,strFunction,pNode_Input,pMap_Item);
                 break;
             case "cn.getword":  //查找某个Token，以及这个Token下面的某个Token

@@ -1,8 +1,6 @@
 package com.funnyai.common;
 
 import com.funnyai.Time.Old.S_Time;
-import com.funnyai.data.C_K_Str;
-import com.funnyai.net.Old.S_Net;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;;
@@ -10,7 +8,6 @@ import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,19 +20,26 @@ public class C_Command_Min extends Thread{
     public boolean Run_Error=false;//运行时错误，就会自动中断
     
     public C_Run_Session_Min pRun_Session=null;
-    //C_Job pJob;
-    
-    C_Log pSB_Output; 
-    C_Log pSB_Error; 
     public String Encode="utf-8";
-    
-    Process process = null;
-    
-    public C_Command_Min(C_Run_Session_Min pRun_Session,int ID){
+
+    private C_Log pSB_Output; 
+    private C_Log pSB_Error; 
+    private Process process = null;
+    private final Callback_Command cb;
+    //private int max_line=3000;
+    public C_Command_Min(
+            C_Run_Session_Min pRun_Session,
+            Callback_Command cb,
+            int ID,
+            int max_line){
+//        this.max_line=max_line;
+        this.cb=cb;
         this.ID=ID;
         this.pRun_Session=pRun_Session;
-        pSB_Output=new C_Log(ID,pRun_Session.ID,"out"); 
+        pSB_Output=new C_Log(ID,pRun_Session.ID,"out");
+        pSB_Output.setMaxLine(max_line);
         pSB_Error=new C_Log(ID,pRun_Session.ID,"error"); 
+        pSB_Error.setMaxLine(max_line);
     }
     
     @Override
@@ -166,12 +170,23 @@ public class C_Command_Min extends Thread{
             }else{
                 S_Debug.Write_DebugLog("","运行成功！");
             }
+            int count=0;
+            while(bRead_Output && count<20){
+                count+=1;//最多等待20秒，
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    S_Debug.Write_DebugLog("error", ex.toString());
+                }
+            }
+            cb.run_finished(this.Output(),this.Error());
         } catch (InterruptedException ex) {
             S_Debug.Write_DebugLog("error","Error 1:" + ex.toString());
         }
         return pSB_Output.toString();
     }
 
+    public boolean bRead_Output=true;
     private Thread Output_Thread(
             final BufferedReader in, final String threadName) {
         Thread copyThread = new Thread(new Runnable() {
@@ -179,12 +194,12 @@ public class C_Command_Min extends Thread{
             public void run() {
                 
                 try {
-                    
                     StringBuilder pStr=new StringBuilder();
-                    //Date pTime=S_Time.now();
                     pSB_Output.addLine(S_Time.now_YMD_Hms()+"\n");
                     String line;
                     while ((line = in.readLine()) != null){
+                        bRead_Output=true;
+                        S_Debug.Write_DebugLog("output",line+"\n");
                         if (line.startsWith("FAILED:")){
                             S_Debug.Write_DebugLog("error","startsWith FAILED::\n");
                             Run_Error=true;
@@ -199,6 +214,7 @@ public class C_Command_Min extends Thread{
                         
                         pSB_Output.addLine(line+"\n");
                     }
+                    bRead_Output=false;
                     line=pStr.toString();
                     if (!line.equals("")){
                         Pattern p = Pattern.compile("FS.Run\\((.*?)\\)");//
@@ -268,16 +284,7 @@ public class C_Command_Min extends Thread{
             @Override
             public void run() {
                 
-                int Try_Times=0;//重试次数
-                int Function_Call=0;
-//                if (pJob!=null){
-//                    if (pJob.pRun!=null){
-//                        Try_Times=pJob.pRun.Try_Times;
-//                        Function_Call=pJob.pRun.Function_Call;
-//                    }
-//                }
                 try {
-                    Date pTime=S_Time.now();
                     pSB_Error.addLine(S_Time.now_YMD_Hms()+"\n");
                     String line;
                     while ((line = in.readLine()) != null) {
@@ -306,25 +313,12 @@ public class C_Command_Min extends Thread{
                             Matcher m = p.matcher(line);
                             while (m.find()){
                                 S_Debug.Write_DebugLog("test","matched");
-//                                if (pJob.pRun!=null){
-//                                    pJob.pRun.Job_ID = m.group(1);
-//                                    S_Debug.Write_DebugLog("test","job_id"+pJob.pRun.Job_ID);
-//                                    pJob.pRun.Save_Job_ID(pJob.pRun.Job_ID,"");
-//                                }else{
-//                                    S_Debug.Write_DebugLog("test","pJob.pMap_Run=null");
-//                                }
                             }
                         }
                         
                         if (line.contains("MapReduce Total cumulative CPU time:")){
                             Pattern p = Pattern.compile("MapReduce Total cumulative CPU time: (\\d+) seconds.*");
                             Matcher m = p.matcher(line);
-                            
-//                            if (pJob.pRun!=null){
-//                                Try_Times=pJob.pRun.Try_Times;
-//                                Function_Call=pJob.pRun.Function_Call;
-//                            }
-                        
                             if (m.matches()){
                                 CPU_Time+=Integer.valueOf(m.group(1));
 //                                C_Log.Save_CPU(pRun_Session, pJob.ID,Function_Call,Try_Times,CPU_Time);
@@ -353,13 +347,6 @@ public class C_Command_Min extends Thread{
                             //MapReduce Total cumulative CPU time: 0 days 22 hours 6 minutes 59 seconds
                         }
                         pSB_Error.addLine(line+"\n");
-//                        if (pJob!=null){
-//                            if (S_Time.now().getTime()/1000-pTime.getTime()/1000>6){
-//                                pTime=S_Time.now();
-//                                pJob.pRun.Save_Time();//状态
-////                                C_Log.Save_Output(pRun_Session.ID, pJob.ID,Function_Call,Try_Times,true,"",pSB_Error.toString());
-//                            }
-//                        }
                     }
                     //如果不到60秒
 //                    C_Log.Save_Output(pRun_Session.ID,pJob.ID,Function_Call,Try_Times,false,"",pSB_Output.toString());
