@@ -195,7 +195,7 @@ public class C_Command_Min extends Thread{
                 
                 try {
                     StringBuilder pStr=new StringBuilder();
-                    pSB_Output.addLine(S_Time.now_YMD_Hms()+"\n");
+                    //pSB_Output.addLine(S_Time.now_YMD_Hms()+"\n");
                     String line;
                     while ((line = in.readLine()) != null){
                         bRead_Output=true;
@@ -285,25 +285,21 @@ public class C_Command_Min extends Thread{
             public void run() {
                 
                 try {
-                    pSB_Error.addLine(S_Time.now_YMD_Hms()+"\n");
+                    //pSB_Error.addLine(S_Time.now_YMD_Hms()+"\n");
                     String line;
                     while ((line = in.readLine()) != null) {
                         System.out.println("****************************\n"+line);
                         if (line.contains("FAILED:")){
                             S_Debug.Write_DebugLog("error"," startsWith FAILED::\n");
-//                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         if (line.contains("Cannot allocate memory")){
-//                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         if (line.contains("Exception in")){
-//                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         if (line.startsWith("Error ")){
-//                            Tools.Send_Msg_To_DingDing(S_Net.Proxy_IP_Watch,S_Net.Proxy_Port_Watch,"J="+pJob.ID +",S="+pJob.pRun_Session.ID+"<br>"+ line);
                             Run_Error=true;
                         }
                         
@@ -327,30 +323,24 @@ public class C_Command_Min extends Thread{
                                 m = p.matcher(line);
                                 if (m.matches()){
                                     CPU_Time+=60*Integer.valueOf(m.group(1))+Integer.valueOf(m.group(2));
-//                                    C_Log.Save_CPU(pRun_Session, pJob.ID,Function_Call,Try_Times,CPU_Time);
                                 }else{
                                     p = Pattern.compile("MapReduce Total cumulative CPU time: (\\d+) hours (\\d+) minutes (\\d+) seconds.*");
                                     m = p.matcher(line);
                                     if (m.matches()){
                                         CPU_Time+=60*60*Integer.valueOf(m.group(1))+60*Integer.valueOf(m.group(2))+Integer.valueOf(m.group(3));
-//                                        C_Log.Save_CPU(pRun_Session, pJob.ID,Function_Call,Try_Times,CPU_Time);
                                     }else{
                                         p = Pattern.compile("MapReduce Total cumulative CPU time: (\\d+) days (\\d+) hours (\\d+) minutes (\\d+) seconds.*");
                                         m = p.matcher(line);
                                         if (m.matches()){
                                             CPU_Time+=24*60*60*Integer.valueOf(m.group(1))+60*60*Integer.valueOf(m.group(2))+60*Integer.valueOf(m.group(3))+Integer.valueOf(m.group(4));
-//                                            C_Log.Save_CPU(pRun_Session, pJob.ID,Function_Call,Try_Times,CPU_Time);
                                         }
                                     }
                                 }
                             }
-                            //MapReduce Total cumulative CPU time: 0 days 22 hours 6 minutes 59 seconds
                         }
                         pSB_Error.addLine(line+"\n");
                     }
                     //如果不到60秒
-//                    C_Log.Save_Output(pRun_Session.ID,pJob.ID,Function_Call,Try_Times,false,"",pSB_Output.toString());
-//                    C_Log.Save_Output(pRun_Session.ID, pJob.ID,Function_Call,Try_Times,true,"",pSB_Error.toString());
                 } catch (IOException e) {
                     S_Debug.Write_DebugLog("error","读取Job结果的错误输出流时发生异常: " + threadName 
                             +e.toString());

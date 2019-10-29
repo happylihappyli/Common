@@ -57,7 +57,7 @@ public class C_Log {
     @Override
     public String toString(){
         StringBuilder pSB=new StringBuilder();
-        pSB.append(pArray.size()).append("\n");
+        //pSB.append(pArray.size()).append("\n");
         for (Object pArray1 : pArray) {
             pSB.append(pArray1);
         }
